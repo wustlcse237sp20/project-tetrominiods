@@ -5,6 +5,9 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import Pieces.Block;
+import Pieces.Tetromino;
+import Pieces.cubeBlock;
 import sedgewick.StdDraw;
 
 public class tetrisGame {
@@ -94,7 +97,7 @@ public class tetrisGame {
        
             @Override
             public boolean dispatchKeyEvent(KeyEvent ke) {
-                synchronized (testingGround.class) {
+                synchronized (tetrisGame.class) {
                     switch (ke.getID()) {
                   
                     case KeyEvent.KEY_PRESSED:

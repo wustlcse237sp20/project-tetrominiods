@@ -1,6 +1,7 @@
-package finalProject;
+package Pieces;
 
 import java.util.ArrayList;
+
 
 public interface Tetromino {
 

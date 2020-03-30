@@ -1,9 +1,11 @@
-package finalProject;
+package Pieces;
 
 public class Block {
 
+	
 	private double x;
 	private double y;
+	
 	
 	public Block(double x, double y) {
 		this.x = x;

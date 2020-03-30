@@ -1,9 +1,10 @@
-package finalProject;
+package Pieces;
 
 import java.util.ArrayList;
 
 public class cubeBlock implements Tetromino {
 
+	//List of Blocks in current Tetromino
 	private ArrayList<Block> blocks;
 	private Block center;
 	private double radius;
@@ -47,6 +48,7 @@ public class cubeBlock implements Tetromino {
 			b.moveLeft();
 		}
 	}
+	
 	public void moveRight() {
 		for (Block b: blocks) {
 			b.moveRight();

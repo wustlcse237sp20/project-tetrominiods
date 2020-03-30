@@ -5,18 +5,13 @@ import sedgewick.StdDraw;
 public class gameBoard {
 
 	public void setup() {
-
+		//Necessary for drawing board and setting scales
 		StdDraw.setCanvasSize(850,850);
 		StdDraw.setScale(-1, 20);
 	}
 	
 	public void drawBoard() {
-//		StdDraw.setXscale(-5, 35);
-//		StdDraw.setYscale(-5, 25);
-		
-//		StdDraw.setPenColor();
 		//Main Square
-//		StdDraw.filledRectangle(10, 10, 5, 10);
 		StdDraw.rectangle(10, 10, 5, 10);
 		
 		//Hold Block Square

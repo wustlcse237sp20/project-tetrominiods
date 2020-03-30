@@ -1,4 +1,4 @@
-package finalProject;
+package Pieces;
 
 import java.util.ArrayList;
 
