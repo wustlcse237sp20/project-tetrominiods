@@ -4,15 +4,19 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Pieces.Block;
 import Pieces.Tetromino;
 import Pieces.cubeBlock;
 import sedgewick.StdDraw;
 
+
+
 public class tetrisGame {
 	
-	public static cubeBlock currentBlock = new cubeBlock(new Block(5.5,5.5),1);
+	public static cubeBlock currentBlock = new cubeBlock(new Block(5.5,10.5),1);
 	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
 
 	
@@ -23,10 +27,12 @@ public class tetrisGame {
 		
 	
 	
-		
+		//Creates Cubes at bottom of screen
 		for (int i = 0; i < 5; i++) {
 			allBlocks.add(new cubeBlock (new Block(0.5 + (i * 2),1.5), 1));
 		}
+		
+		//Movable Cube for testing
 		allBlocks.add(currentBlock);
 		
 		
@@ -34,8 +40,8 @@ public class tetrisGame {
 			drawBlocks(b);
 		}
 		
+		//GameBoard is used to map where all pieces exist on board
 		int [][] gameBoard = new int[20][10];
-		gameBoard = new int[20][10];
 		for(Tetromino b: allBlocks) {
 			for (Block p: b.getBlocks()) {
 				System.out.println("Adding (" + p.getX() + " , " + p.getY() + ") ");
@@ -44,6 +50,7 @@ public class tetrisGame {
 			
 		}
 		
+		//count how often pieces exist in board
 		for (int i =0; i < gameBoard.length; i++) {
 			int count=0;
 			for (int j = 0; j < gameBoard[0].length; j++) {
@@ -56,60 +63,81 @@ public class tetrisGame {
 			System.out.println("Row " + i + " is full");
 			
 		}
-		
+		Timer timer = new Timer();
+		timer.schedule(new SayHello(), 0, 5000);
 		
 		System.out.println("Done");
 		
 	
+			
 		
 	
 	}
+
+
 	
+	
+	
+	/**
+	 * Draws the entire game in its current state (should be called per each movement)
+	 */
 	public static void reDraw() {
 		clearBoard();
 		new gameBoard().drawBoard();
+		drawAllBlocks();
+		StdDraw.show(20);
+	}
+
+	/**
+	 * Draws all Tetromino Pieces in the game
+	 */
+	
+	private static void drawAllBlocks() {
 		System.out.println(allBlocks.size());
 		for (Tetromino b: allBlocks) {
 			drawBlocks(b);
 		}
-		
-		StdDraw.show(20);
 	}
 	
 	public static void clearBoard() {
 		StdDraw.clear();
 	}
 	
-	public static void drawBlocks(Tetromino b) {
+	
+	/**
+	 * Draws each block in the tetris piece given (currently blue)
+	 * @param t Tetris piece to draw
+	 */
+	public static void drawBlocks(Tetromino t) {
 		StdDraw.setPenColor(StdDraw.BLUE);
-		for (Block block: b.getBlocks()) {
-		
-//			StdDraw.filledSquare(block.getX() + 5, block.getY(), b.getRadius()/2);
-			StdDraw.square(block.getX() + 5, block.getY(), b.getRadius()/2);
-//			System.out.println("Block is located at ( " + block.getX() + ", " + block.getY() + " ) with a radius of " + b.getRadius());
+		for (Block block: t.getBlocks()) {
+			StdDraw.square(block.getX() + 5, block.getY(), t.getRadius()/2);
 		}
 	}
 	
+	
+	/**
+	 * Initializes button presses on keyBoard 
+	 * Found Here: https://stackoverflow.com/questions/27967575/trouble-with-key-pressings-in-java
+	 */
+	
 	private static void setupKeyboard() {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-        
-       
-       
             @Override
             public boolean dispatchKeyEvent(KeyEvent ke) {
                 synchronized (tetrisGame.class) {
                     switch (ke.getID()) {
-                  
                     case KeyEvent.KEY_PRESSED:
+                    	
                         if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
-                        	if (currentBlock.getBlocks().get(0).getX() > 0.5) {
+                        	if (isWithinBounds()) {
 	                        	currentBlock.moveLeft();
 	                        	System.out.println("Moved to " + currentBlock.getBlocks().get(0).getX() );
 	                        	reDraw();
                         	}
                         }
                         if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        	if (currentBlock.getBlocks().get(0).getX() < 8.5) {
+                        	if (isWithinBounds()) {
 	                        	currentBlock.moveRight();
 	                        	System.out.println("Moved to " + currentBlock.getBlocks().get(0).getX() );
 	                        	reDraw();
@@ -124,6 +152,10 @@ public class tetrisGame {
                     return false;
                 }
             }
+
+			private boolean isWithinBounds() {
+				return currentBlock.getBlocks().get(0).getX() > 0.5 && currentBlock.getBlocks().get(0).getX() < 8.5;
+			}
             
         });
 	}

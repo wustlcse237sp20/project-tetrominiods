@@ -32,4 +32,8 @@ public class Block {
 		this.x += 1;
 	}
 	
+	public void moveDown() {
+		this.y -= 1;
+	}
+	
 }
