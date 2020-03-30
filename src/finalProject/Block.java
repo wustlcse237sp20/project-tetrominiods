@@ -1,18 +1,33 @@
 package finalProject;
 
-import java.util.ArrayList;
+public class Block {
 
-public interface Block {
+	private double x;
+	private double y;
+	
+	public Block(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	
 
-    public ArrayList<Point> getBlocks();
+	public double getX() {
+		return this.x;
+		
+	}
 	
-	public Point getCenter();
-
-	public double getRadius();
+	public double getY() {
+		return this.y;
+		
+	}
 	
-	public void initializeBlock();
+	public void moveLeft() {
+		this.x -= 1;
+	}
 	
-	public void moveLeft();
+	public void moveRight() {
+		this.x += 1;
+	}
 	
-	public void moveRight();
 }

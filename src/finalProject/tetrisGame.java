@@ -9,8 +9,8 @@ import sedgewick.StdDraw;
 
 public class tetrisGame {
 	
-	public static cubeBlock currentBlock = new cubeBlock(new Point(5.5,5.5),1);
-	public static ArrayList<Block> allBlocks = new ArrayList<>();
+	public static cubeBlock currentBlock = new cubeBlock(new Block(5.5,5.5),1);
+	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
 
 	
 	public static void main(String [] args) {
@@ -22,19 +22,19 @@ public class tetrisGame {
 	
 		
 		for (int i = 0; i < 5; i++) {
-			allBlocks.add(new cubeBlock (new Point(0.5 + (i * 2),1.5), 1));
+			allBlocks.add(new cubeBlock (new Block(0.5 + (i * 2),1.5), 1));
 		}
 		allBlocks.add(currentBlock);
 		
 		
-		for (Block b: allBlocks) {
+		for (Tetromino b: allBlocks) {
 			drawBlocks(b);
 		}
 		
 		int [][] gameBoard = new int[20][10];
 		gameBoard = new int[20][10];
-		for(Block b: allBlocks) {
-			for (Point p: b.getBlocks()) {
+		for(Tetromino b: allBlocks) {
+			for (Block p: b.getBlocks()) {
 				System.out.println("Adding (" + p.getX() + " , " + p.getY() + ") ");
 				gameBoard[(int)p.getY()][(int)p.getX()] = 1;
 			}
@@ -66,7 +66,7 @@ public class tetrisGame {
 		clearBoard();
 		new gameBoard().drawBoard();
 		System.out.println(allBlocks.size());
-		for (Block b: allBlocks) {
+		for (Tetromino b: allBlocks) {
 			drawBlocks(b);
 		}
 		
@@ -77,9 +77,9 @@ public class tetrisGame {
 		StdDraw.clear();
 	}
 	
-	public static void drawBlocks(Block b) {
+	public static void drawBlocks(Tetromino b) {
 		StdDraw.setPenColor(StdDraw.BLUE);
-		for (Point block: b.getBlocks()) {
+		for (Block block: b.getBlocks()) {
 		
 //			StdDraw.filledSquare(block.getX() + 5, block.getY(), b.getRadius()/2);
 			StdDraw.square(block.getX() + 5, block.getY(), b.getRadius()/2);

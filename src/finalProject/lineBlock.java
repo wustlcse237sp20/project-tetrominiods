@@ -2,13 +2,13 @@ package finalProject;
 
 import java.util.ArrayList;
 
-public class lineBlock implements Block {
+public class lineBlock implements Tetromino {
 
-	private ArrayList<Point> blocks;
-	private Point center;
+	private ArrayList<Block> blocks;
+	private Block center;
 	private double radius;
 	
-	public lineBlock(Point topLeftCenter, double radius) {
+	public lineBlock(Block topLeftCenter, double radius) {
 		this.center = topLeftCenter;
 		this.blocks = new ArrayList<>();
 		this.radius = radius;
@@ -16,11 +16,11 @@ public class lineBlock implements Block {
 		
 	}
 	
-	public ArrayList<Point> getBlocks(){
+	public ArrayList<Block> getBlocks(){
 		return this.blocks;
 	}
 	
-	public Point getCenter() {
+	public Block getCenter() {
 		return this.center;
 	}
 
@@ -30,16 +30,16 @@ public class lineBlock implements Block {
 	
 	public void initializeBlock() {
 		//Make bottom block
-		this.blocks.add(new Point(this.center.getX(), this.center.getY()));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY()));
 		
 		//Make 2nd from bottom
-		this.blocks.add(new Point(this.center.getX(), this.center.getY() + radius));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() + radius));
 		
 		//Make 3rd from bottom
-		this.blocks.add(new Point(this.center.getX(), this.center.getY() + (2 * radius)));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() + (2 * radius)));
 		
 		///Make Top Block
-		this.blocks.add(new Point(this.center.getX(), this.center.getY() + (3 * radius)));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() + (3 * radius)));
 	}
 
 	@Override
