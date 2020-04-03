@@ -10,13 +10,14 @@ import java.util.TimerTask;
 import Pieces.Block;
 import Pieces.Tetromino;
 import Pieces.cubeBlock;
+import Pieces.lineBlock;
 import sedgewick.StdDraw;
 
 
 
 public class tetrisGame {
 	
-	public static cubeBlock currentBlock = new cubeBlock(new Block(5.5,10.5),1);
+	public static lineBlock currentBlock = new lineBlock(new Block(5.5,10.5),1);
 	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
 
 	
@@ -64,7 +65,7 @@ public class tetrisGame {
 			
 		}
 		Timer timer = new Timer();
-		timer.schedule(new SayHello(), 0, 5000);
+		timer.schedule(new SayHello(), 0, 1000);
 		
 		System.out.println("Done");
 		
@@ -144,6 +145,7 @@ public class tetrisGame {
                         	}
                          }
                         if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
+                        	
                             System.out.println("Space");
                          }
                         

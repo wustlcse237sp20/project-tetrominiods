@@ -53,4 +53,10 @@ public class lineBlock implements Tetromino {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void moveDown() {
+		for (Block b: blocks) {
+			b.moveDown();
+		}
+	}
 }
