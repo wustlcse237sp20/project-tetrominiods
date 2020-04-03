@@ -44,13 +44,29 @@ public class lineBlock implements Tetromino {
 
 	@Override
 	public void moveLeft() {
-		// TODO Auto-generated method stub
+	
+		for (Block b: blocks) {
+			b.moveLeft();
+		}
 		
 	}
 
 	@Override
 	public void moveRight() {
-		// TODO Auto-generated method stub
-		
+		for (Block b: blocks) {
+			b.moveRight();
+		}
+	}
+	
+	public void moveDown() {
+		for (Block b: blocks) {
+			b.moveDown();
+		}
+	}
+	
+	public void moveUp() {
+		for (Block b: blocks) {
+			b.moveUp();
+		}
 	}
 }

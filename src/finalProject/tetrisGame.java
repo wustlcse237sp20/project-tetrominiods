@@ -10,15 +10,17 @@ import java.util.TimerTask;
 import Pieces.Block;
 import Pieces.Tetromino;
 import Pieces.cubeBlock;
+import Pieces.lineBlock;
 import sedgewick.StdDraw;
 
 
 
 public class tetrisGame {
 	
-	public static cubeBlock currentBlock = new cubeBlock(new Block(5.5,10.5),1);
+	public static lineBlock currentBlock = new lineBlock(new Block(5.5,17.5),1);
 	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
-
+	public static Block [][] gameBoard = new Block[20][10];
+	public static Timer timer = timer = new Timer();
 	
 	public static void main(String [] args) {
 		new gameBoard().setup();
@@ -41,51 +43,71 @@ public class tetrisGame {
 		}
 		
 		//GameBoard is used to map where all pieces exist on board
-		int [][] gameBoard = new int[20][10];
+		
+	
 		for(Tetromino b: allBlocks) {
-			for (Block p: b.getBlocks()) {
-				System.out.println("Adding (" + p.getX() + " , " + p.getY() + ") ");
-				gameBoard[(int)p.getY()][(int)p.getX()] = 1;
-			}
+			if (!b.equals(currentBlock))
+				setAsObstacle(b);
 			
 		}
 		
 		//count how often pieces exist in board
-		for (int i =0; i < gameBoard.length; i++) {
-			int count=0;
-			for (int j = 0; j < gameBoard[0].length; j++) {
-				if (gameBoard[i][j] == 1) {
-					count++;
-					System.out.println("Block at (" + i + " , " + j + ")" );
-				}
-			}
-			if (count >= 10)
-			System.out.println("Row " + i + " is full");
+//		for (int i =0; i < gameBoard.length; i++) {
+//			int count=0;
+//			for (int j = 0; j < gameBoard[0].length; j++) {
+//				if (gameBoard[i][j] == 1) {
+//					count++;
+//					System.out.println("Block at (" + i + " , " + j + ")" );
+//				}
+//			}
+//			if (count >= 10)
+//			System.out.println("Row " + i + " is full");
 			
-		}
-		Timer timer = new Timer();
-		timer.schedule(new SayHello(), 0, 5000);
-		
-		System.out.println("Done");
+//		}
+	
+		timer.schedule(new SayHello(), 0, 400);
 		
 	
-			
-		
+		System.out.println("Done");	
 	
+		
 	}
 
-
+	private static void setAsObstacle(Tetromino b) {
+		for (Block p: b.getBlocks()) {
+				gameBoard[(int)p.getY()][(int)p.getX()] = p;
+			}
+		
+	}
 	
-	
+	public static boolean checkForCollision() {
+		for (Block b : currentBlock.getBlocks()) {
+			if (gameBoard[(int)b.getY()][(int)b.getX()] != null) {
+				System.out.println("Collision at (" + b.getX() + ", " + b.getY() + ")");
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * Draws the entire game in its current state (should be called per each movement)
 	 */
 	public static void reDraw() {
 		clearBoard();
+		if (checkForCollision()) {
+			currentBlock.moveUp();
+			setAsObstacle(currentBlock);
+			currentBlock = new lineBlock(new Block(5.5,10.5),1);
+
+			allBlocks.add(currentBlock);
+		}
+		
+		
 		new gameBoard().drawBoard();
 		drawAllBlocks();
 		StdDraw.show(20);
+		
 	}
 
 	/**
@@ -93,7 +115,6 @@ public class tetrisGame {
 	 */
 	
 	private static void drawAllBlocks() {
-		System.out.println(allBlocks.size());
 		for (Tetromino b: allBlocks) {
 			drawBlocks(b);
 		}
@@ -130,33 +151,59 @@ public class tetrisGame {
                     case KeyEvent.KEY_PRESSED:
                     	
                         if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
-                        	if (isWithinBounds()) {
+                        	if (canMoveLeft()) {
 	                        	currentBlock.moveLeft();
-	                        	System.out.println("Moved to " + currentBlock.getBlocks().get(0).getX() );
+	                        	if (checkForCollision()) {
+	                        		System.out.println("cant move left here");
+	                        		
+	                        		currentBlock.moveRight();
+	                        	}
 	                        	reDraw();
                         	}
                         }
                         if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        	if (isWithinBounds()) {
+                        	if (canMoveRight()) {
 	                        	currentBlock.moveRight();
-	                        	System.out.println("Moved to " + currentBlock.getBlocks().get(0).getX() );
+	                        	if (checkForCollision()) {
+	                        		System.out.println("cant move right here");
+	                        		
+	                        		currentBlock.moveLeft();
+	                        	}
 	                        	reDraw();
                         	}
                          }
-                        if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
+                        if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
+                        	timer.cancel();
+                			timer = new Timer();
+                			timer.schedule(new SayHello(), 0, 500);
                             System.out.println("Space");
                          }
                         
                    
                     }
+                    switch (ke.getID()) {
+                    case KeyEvent.KEY_RELEASED:
+                    	 if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
+                    			
+                    			timer.cancel();
+                    			timer = new Timer();
+                    			timer.schedule(new SayHello(), 0, 700);
+                             System.out.println("released Space");
+                          }
+                  
+                    }
                     return false;
                 }
             }
 
-			private boolean isWithinBounds() {
-				return currentBlock.getBlocks().get(0).getX() > 0.5 && currentBlock.getBlocks().get(0).getX() < 8.5;
+	
+
+			private boolean canMoveLeft() {
+				return currentBlock.getBlocks().get(0).getX() > 0.5;
 			}
-            
+			private boolean canMoveRight() {
+				return currentBlock.getBlocks().get(0).getX() < 9.5;
+			}
         });
 	}
 }
