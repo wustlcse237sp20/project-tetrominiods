@@ -60,4 +60,10 @@ public class cubeBlock implements Tetromino {
 			b.moveDown();
 		}
 	}
+	
+	public void moveUp() {
+		for (Block b: blocks) {
+			b.moveUp();
+		}
+	}
 }

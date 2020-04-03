@@ -36,4 +36,8 @@ public class Block {
 		this.y -= 1;
 	}
 	
+	public void moveUp() {
+		this.y += 1;
+	}
+	
 }
