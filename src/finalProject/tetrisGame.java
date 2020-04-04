@@ -1,5 +1,6 @@
 package finalProject;
 
+import java.awt.Color;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
@@ -134,7 +135,7 @@ public class tetrisGame {
 	 * @param t Tetris piece to draw
 	 */
 	public static void drawBlocks(Tetromino t) {
-		StdDraw.setPenColor(StdDraw.BLUE);
+		StdDraw.setPenColor(t.getColor());
 		for (Block block: t.getBlocks()) {
 			StdDraw.square(block.getX() + 5, block.getY(), t.getRadius()/2);
 		}

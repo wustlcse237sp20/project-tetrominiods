@@ -1,5 +1,6 @@
 package Pieces;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 
@@ -21,4 +22,5 @@ public interface Tetromino {
 	
 	public void moveUp();
 	
+	public Color getColor();
 }

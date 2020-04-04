@@ -1,6 +1,9 @@
 package Pieces;
 
+import java.awt.Color;
 import java.util.ArrayList;
+
+import sedgewick.StdDraw;
 
 public class jBlock implements Tetromino {
 
@@ -66,4 +69,9 @@ public class jBlock implements Tetromino {
 			b.moveUp();
 		}
 	}
+	
+	public Color getColor() {
+		return StdDraw.BLUE;
+	}
+	
 }
