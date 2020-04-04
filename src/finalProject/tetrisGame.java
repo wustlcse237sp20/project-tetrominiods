@@ -11,13 +11,17 @@ import Pieces.Block;
 import Pieces.Tetromino;
 import Pieces.cubeBlock;
 import Pieces.lineBlock;
+import Pieces.tBlock;
+import Pieces.lBlock;
+import Pieces.jBlock;
+import Pieces.sBlock;
 import sedgewick.StdDraw;
 
 
 
 public class tetrisGame {
 	
-	public static lineBlock currentBlock = new lineBlock(new Block(5.5,17.5),1);
+	public static cubeBlock currentBlock = new cubeBlock(new Block(5.5,17.5),1);
 	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
 	public static Block [][] gameBoard = new Block[20][10];
 	public static Timer timer = timer = new Timer();
@@ -98,7 +102,7 @@ public class tetrisGame {
 		if (checkForCollision()) {
 			currentBlock.moveUp();
 			setAsObstacle(currentBlock);
-			currentBlock = new lineBlock(new Block(5.5,10.5),1);
+			currentBlock = new cubeBlock(new Block(5.5,10.5),1);
 
 			allBlocks.add(currentBlock);
 		}
