@@ -140,7 +140,7 @@ public class tetrisGame {
 			StdDraw.square(block.getX() + 5, block.getY(), t.getRadius()/2);
 		}
 	}
-	
+
 	
 	/**
 	 * Initializes button presses on keyBoard 
