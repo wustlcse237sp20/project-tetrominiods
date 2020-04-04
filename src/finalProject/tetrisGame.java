@@ -141,7 +141,6 @@ public class tetrisGame {
 		}
 	}
 
-	
 	/**
 	 * Initializes button presses on keyBoard 
 	 * Found Here: https://stackoverflow.com/questions/27967575/trouble-with-key-pressings-in-java
