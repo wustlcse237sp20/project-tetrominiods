@@ -22,9 +22,10 @@ import sedgewick.StdDraw;
 
 public class tetrisGame {
 	
-	public static cubeBlock currentBlock = new cubeBlock(new Block(5.5,17.5),1);
+	public static Tetromino currentBlock = new lineBlock(new Block(5.5,22.5),1);
+	
 	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
-	public static Block [][] gameBoard = new Block[20][10];
+	public static Block [][] gameBoard = new Block[24][10];
 	public static Timer timer = timer = new Timer();
 	
 	public static void main(String [] args) {
@@ -34,10 +35,7 @@ public class tetrisGame {
 		
 	
 	
-		//Creates Cubes at bottom of screen
-		for (int i = 0; i < 5; i++) {
-			allBlocks.add(new cubeBlock (new Block(0.5 + (i * 2),1.5), 1));
-		}
+	
 		
 		//Movable Cube for testing
 		allBlocks.add(currentBlock);
@@ -47,14 +45,7 @@ public class tetrisGame {
 			drawBlocks(b);
 		}
 		
-		//GameBoard is used to map where all pieces exist on board
-		
 	
-		for(Tetromino b: allBlocks) {
-			if (!b.equals(currentBlock))
-				setAsObstacle(b);
-			
-		}
 		
 		//count how often pieces exist in board
 //		for (int i =0; i < gameBoard.length; i++) {
@@ -70,10 +61,9 @@ public class tetrisGame {
 			
 //		}
 	
-		timer.schedule(new SayHello(), 0, 400);
+		timer.schedule(new SayHello(), 0, 700);
 		
 	
-		System.out.println("Done");	
 	
 		
 	}
@@ -103,7 +93,7 @@ public class tetrisGame {
 		if (checkForCollision()) {
 			currentBlock.moveUp();
 			setAsObstacle(currentBlock);
-			currentBlock = new cubeBlock(new Block(5.5,10.5),1);
+			currentBlock = new lineBlock(new Block(5.5,10.5),1);
 
 			allBlocks.add(currentBlock);
 		}
@@ -176,15 +166,27 @@ public class tetrisGame {
 	                        	reDraw();
                         	}
                          }
+                        
+         
+                        if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
+//	                        	currentBlock.rotate();
+	                        	System.out.println("ytiojb");
+                         }
+                        	
+                        	
+                   }
+                        
+                        	
+                        	
+                        	
                         if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
                         	timer.cancel();
                 			timer = new Timer();
                 			timer.schedule(new SayHello(), 0, 500);
-                            System.out.println("Space");
                          }
                         
                    
-                    }
+                    
                     switch (ke.getID()) {
                     case KeyEvent.KEY_RELEASED:
                     	 if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -192,7 +194,6 @@ public class tetrisGame {
                     			timer.cancel();
                     			timer = new Timer();
                     			timer.schedule(new SayHello(), 0, 700);
-                             System.out.println("released Space");
                           }
                   
                     }
@@ -207,7 +208,8 @@ public class tetrisGame {
 			}
 			private boolean canMoveRight() {
 				return currentBlock.getBlocks().get(0).getX() < 9.5;
-			}
-        });
-	}
-}
+			}});}}
+	
+        
+	
+

@@ -23,4 +23,6 @@ public interface Tetromino {
 	public void moveUp();
 	
 	public Color getColor();
+	
+	public void rotate();
 }

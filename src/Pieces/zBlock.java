@@ -11,6 +11,7 @@ public class zBlock implements Tetromino {
 	private ArrayList<Block> blocks;
 	private Block center;
 	private double radius;
+	private int state = 1;
 	
 	public zBlock(Block topLeftCenter, double radius) {
 		this.center = topLeftCenter;
@@ -73,5 +74,15 @@ public class zBlock implements Tetromino {
 	public Color getColor() {
 		return StdDraw.RED;
 	}
+	public void rotate() {
+		Block firstBlock = blocks.get(0);
+		if (state == 1) { //rotate right
+			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
+			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
+			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
+		}
+		
+	
 
+}
 }

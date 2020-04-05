@@ -11,6 +11,7 @@ public class tBlock implements Tetromino {
 	private ArrayList<Block> blocks;
 	private Block center;
 	private double radius;
+	private int state = 1;
 	
 	public tBlock(Block topLeftCenter, double radius) {
 		this.center = topLeftCenter;
@@ -73,4 +74,32 @@ public class tBlock implements Tetromino {
 	public Color getColor() {
 		return StdDraw.MAGENTA; //needs to be changed to purple
 	}
+	public void rotate() {
+		Block firstBlock = blocks.get(0);
+		if (state == 1) { //rotate right
+			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
+			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
+			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
+		}
+		
+		if (state == 2) { //rotate right
+				blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
+				blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
+				blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
+		}
+	
+		if (state == 3) { //rotate right
+			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
+			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
+			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
+			}
+		if (state == 4) { //rotate left?
+			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()+1 ));
+			blocks.set(2, new Block (firstBlock.getX(), firstBlock.getY()+2 ));
+			blocks.set(3, new Block (firstBlock.getX(), firstBlock.getY()+3 ));
+			}
+				
+		
+		
+}
 }

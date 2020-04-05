@@ -11,6 +11,7 @@ public class sBlock implements Tetromino {
 	private ArrayList<Block> blocks;
 	private Block center;
 	private double radius;
+	private int state = 1;
 	
 	public sBlock(Block topLeftCenter, double radius) {
 		this.center = topLeftCenter;
@@ -73,4 +74,14 @@ public class sBlock implements Tetromino {
 	public Color getColor() {
 		return StdDraw.GREEN; 
 	}
+	public void rotate() {
+		Block firstBlock = blocks.get(0);
+		if (state == 1) { //rotate right
+			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
+			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
+			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
+		}
+		
+		
+}
 }
