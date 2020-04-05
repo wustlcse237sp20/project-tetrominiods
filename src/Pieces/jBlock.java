@@ -85,7 +85,7 @@ public class jBlock implements Tetromino {
 		}
 		}
 		
-	//change this so that you just call the method and can apply it through multiple states
+	//change this so that you just call the method and can apply it through multiple states//
 
 	}
 }

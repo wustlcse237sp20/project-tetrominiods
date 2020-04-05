@@ -3,7 +3,7 @@ package finalProject;
 import sedgewick.StdDraw;
 
 public class gameBoard {
-
+//
 	public void setup() {
 		//Necessary for drawing board and setting scales
 		StdDraw.setCanvasSize(850,850);

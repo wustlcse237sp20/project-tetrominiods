@@ -54,7 +54,7 @@ public class lineBlock implements Tetromino {
 		}
 		
 	}
-
+//
 	@Override
 	public void moveRight() {
 		for (Block b: blocks) {

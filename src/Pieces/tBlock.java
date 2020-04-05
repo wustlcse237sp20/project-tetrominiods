@@ -70,7 +70,7 @@ public class tBlock implements Tetromino {
 			b.moveUp();
 		}
 	}
-	
+	//
 	public Color getColor() {
 		return StdDraw.MAGENTA; //needs to be changed to purple
 	}

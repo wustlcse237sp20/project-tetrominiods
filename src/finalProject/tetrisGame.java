@@ -186,7 +186,7 @@ public class tetrisGame {
                          }
                         
                    
-                    
+                    //
                     switch (ke.getID()) {
                     case KeyEvent.KEY_RELEASED:
                     	 if (ke.getKeyCode() == KeyEvent.VK_DOWN) {

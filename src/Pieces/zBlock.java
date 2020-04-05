@@ -58,7 +58,7 @@ public class zBlock implements Tetromino {
 			b.moveRight();
 		}
 	}
-	
+	//
 	public void moveDown() {
 		for (Block b: blocks) {
 			b.moveDown();

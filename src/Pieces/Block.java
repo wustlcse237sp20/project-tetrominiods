@@ -11,7 +11,7 @@ public class Block {
 	private Block center;
 	private double radius;
 	private int state = 1;
-
+//
 	
 	public Block(double x, double y) {
 		this.x = x;
