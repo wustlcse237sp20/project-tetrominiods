@@ -13,6 +13,7 @@ import Pieces.Tetromino;
 import Pieces.cubeBlock;
 import Pieces.lineBlock;
 import Pieces.tBlock;
+import Pieces.zBlock;
 import Pieces.lBlock;
 import Pieces.jBlock;
 import Pieces.sBlock;
@@ -22,10 +23,10 @@ import sedgewick.StdDraw;
 
 public class tetrisGame {
 	
-	public static Tetromino currentBlock = new lineBlock(new Block(5.5,22.5),1);
+	public static Tetromino currentBlock = new lineBlock(new Block(5.5,17.5),1);
 	
 	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
-	public static Block [][] gameBoard = new Block[24][10];
+	public static Block [][] gameBoard = new Block[25][10];
 	public static Timer timer = timer = new Timer();
 	
 	public static void main(String [] args) {
@@ -77,11 +78,16 @@ public class tetrisGame {
 	
 	public static boolean checkForCollision() {
 		for (Block b : currentBlock.getBlocks()) {
+			if (b.getY() < 0 )
+				return true;
 			if (gameBoard[(int)b.getY()][(int)b.getX()] != null) {
 				System.out.println("Collision at (" + b.getX() + ", " + b.getY() + ")");
 				return true;
 			}
+			
 		}
+		
+	
 		return false;
 	}
 	
@@ -93,7 +99,7 @@ public class tetrisGame {
 		if (checkForCollision()) {
 			currentBlock.moveUp();
 			setAsObstacle(currentBlock);
-			currentBlock = new lineBlock(new Block(5.5,10.5),1);
+			currentBlock = createNewPlayerBlock();
 
 			allBlocks.add(currentBlock);
 		}
@@ -104,6 +110,40 @@ public class tetrisGame {
 		StdDraw.show(20);
 		
 	}
+	
+	public static Tetromino createNewPlayerBlock() {
+		int randIndex = (int)(Math.random() * 7);//gets a random number corresponding to block 
+	
+		if (randIndex == 0)
+			return new cubeBlock(new Block(5.5,17.5),1);
+		
+		else if (randIndex == 1) {
+			return new lineBlock(new Block(5.5,17.5),1);
+		}
+		
+		else if (randIndex == 2) {
+			return new jBlock(new Block(5.5,17.5),1);
+		}
+		
+		else if (randIndex == 3) {
+			return new lBlock(new Block(5.5,17.5),1);
+		}
+				
+		else if (randIndex == 4) {
+			return new sBlock(new Block(5.5,17.5),1);
+		}
+				
+		else if (randIndex == 5) {
+			return new tBlock(new Block(5.5,17.5),1);
+		}
+				
+		else{
+			return new zBlock(new Block(5.5,17.5),1);
+		}
+		
+	
+		
+	}
 
 	/**
 	 * Draws all Tetromino Pieces in the game
@@ -111,6 +151,7 @@ public class tetrisGame {
 	
 	private static void drawAllBlocks() {
 		for (Tetromino b: allBlocks) {
+			StdDraw.setPenColor(b.getColor());
 			drawBlocks(b);
 		}
 	}
@@ -169,7 +210,7 @@ public class tetrisGame {
                         
          
                         if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
-//	                        	currentBlock.rotate();
+	                        	currentBlock.rotate();
 	                        	System.out.println("ytiojb");
                          }
                         	

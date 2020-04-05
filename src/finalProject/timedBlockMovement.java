@@ -9,6 +9,7 @@ class SayHello extends TimerTask {
     	Block centerBlock = tetrisGame.currentBlock.getBlocks().get(0);
        System.out.println("Block is currently at (" + centerBlock.getX() + ", " + centerBlock.getY() + ")"); 
        tetrisGame.currentBlock.moveDown();
+     
        tetrisGame.reDraw();
     }
 }//
