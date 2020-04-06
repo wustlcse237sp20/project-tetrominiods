@@ -34,16 +34,16 @@ public class jBlock implements Tetromino {
 	
 	public void initializeBlock() {
 		//Bottom Center
-		this.blocks.add(new Block(this.center.getX(), this.center.getY() - radius));
-		
-		//Bottom Right
-		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() - radius));
-		
-		//Center Right
-		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY()));
-		
-		///Top Right
-		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() + radius));
+				this.blocks.add(new Block(this.center.getX(), this.center.getY() - radius));
+				
+				//Bottom Right
+				this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() - radius));
+				
+				//Center Right
+				this.blocks.add(new Block(this.center.getX() + radius, this.center.getY()));
+				
+				///Top Right
+				this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() + radius));
 				
 	}
 	
@@ -78,12 +78,20 @@ public class jBlock implements Tetromino {
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
 		for (Block b: blocks) {
-		if (state == 1) { //rotate right
-			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
-			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
-			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
-		}
-		}
+			if (state %2 ==  1) { //rotate right
+				blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1));
+				blocks.set(2, new Block (firstBlock.getX() + 1, firstBlock.getY()-1));
+				blocks.set(3, new Block (firstBlock.getX() + 2, firstBlock.getY()-1));
+			}
+			else {
+				
+				blocks.set(1, new Block(firstBlock.getX() + 1,firstBlock .getY() ));
+				blocks.set(2, new Block(firstBlock.getX() + 1, firstBlock.getY() +1 ));
+				blocks.set(3, new Block(firstBlock.getX() + 1, firstBlock.getY() + 2));
+			}
+	  }
+		state++;
+		System.out.println(state);
 		
 	//change this so that you just call the method and can apply it through multiple states//
 

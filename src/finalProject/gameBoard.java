@@ -12,6 +12,8 @@ public class gameBoard {
 	
 	
 	public void drawBoard() {
+		
+		
 		StdDraw.setPenColor(StdDraw.BLACK);
 		//Main Square
 		StdDraw.rectangle(10, 10, 5, 10);
@@ -21,6 +23,19 @@ public class gameBoard {
 		
 		//Next Block Square
 		StdDraw.rectangle(16.5, 15, 1.5, 5);
+	}
+
+
+	public void printLosingScreen() {
+		// TODO Auto-generated method stub
+		StdDraw.setPenColor(StdDraw.GRAY);
+		//Main Square
+		StdDraw.filledRectangle(10, 10, 30, 30);
+		StdDraw.setPenRadius(10);
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.text(10, 10, "You lose :(");
+		StdDraw.show(20);
+		StdDraw.pause(4000);
 	}
 
 }

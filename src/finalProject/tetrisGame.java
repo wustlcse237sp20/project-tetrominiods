@@ -23,7 +23,7 @@ import sedgewick.StdDraw;
 
 public class tetrisGame {
 	
-	public static Tetromino currentBlock = new lineBlock(new Block(5.5,17.5),1);
+	public static Tetromino currentBlock = createNewPlayerBlock();
 	
 	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
 	public static Block [][] gameBoard = new Block[25][10];
@@ -43,21 +43,6 @@ public class tetrisGame {
 		}
 		timer.schedule(new timedBlockMovement(), 0, 700);
 	
-		
-		//count how often pieces exist in board
-//		for (int i =0; i < gameBoard.length; i++) {
-//			int count=0;
-//			for (int j = 0; j < gameBoard[0].length; j++) {
-//				if (gameBoard[i][j] == 1) {
-//					count++;
-//					System.out.println("Block at (" + i + " , " + j + ")" );
-//				}
-//			}
-//			if (count >= 10)
-//			System.out.println("Row " + i + " is full");
-			
-//		}
-	
 	}
 
 	private static void setAsObstacle(Tetromino b) {
@@ -73,7 +58,7 @@ public class tetrisGame {
 			}
 			try {
 				if (gameBoard[(int)b.getY()][(int)b.getX()] != null) {
-					System.out.println("Collision at (" + b.getX() + ", " + b.getY() + ")");
+					
 					return true;
 				}
 			}
@@ -104,12 +89,23 @@ public class tetrisGame {
 		setAsObstacle(currentBlock);
 		currentBlock = createNewPlayerBlock();
 		allBlocks.add(currentBlock);
-		
+		if (checkForGameLoss()) {
+			new gameBoard().printLosingScreen();
+			timer.cancel();
+			System. exit(0);
+		}
+	}
+	
+	private static boolean checkForGameLoss() {
+		if (collision()) {
+			return true;
+		}
+		return false;
 	}
 
 	public static Tetromino createNewPlayerBlock() {
 		int randIndex = (int)(Math.random() * 7);//gets a random number corresponding to block 
-	
+		
 		if (randIndex == 0)
 			return new cubeBlock(new Block(5.5,17.5),1);
 		
@@ -200,10 +196,13 @@ public class tetrisGame {
                          }
                         
          
-                        if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
-	                        	currentBlock.rotate();
-	                        	reDraw();
-                         }
+                  	  if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
+                      	currentBlock.rotate();
+                      	while(collision()) {
+                      		currentBlock.moveLeft();
+                      	}
+                      	reDraw();
+                 }
                    
                         
                         if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -222,6 +221,8 @@ public class tetrisGame {
                     			timer = new Timer();
                     			timer.schedule(new timedBlockMovement(), 0, 700);
                           }
+                    	 
+                    
                   
                     }
                     return false;
@@ -233,7 +234,7 @@ public class tetrisGame {
 			private boolean canMoveLeft() {
 				boolean ret = true;
 				for (Block b : currentBlock.getBlocks()) {
-					if (currentBlock.getBlocks().get(0).getX() <= 0.5)
+					if (b.getX() <= 0.5)
 						ret = false;
 				}
 				return ret;
@@ -242,7 +243,7 @@ public class tetrisGame {
 			private boolean canMoveRight() {
 				boolean ret = true;
 				for (Block b : currentBlock.getBlocks()) {
-					if (currentBlock.getBlocks().get(0).getX() > 9.5)
+					if (b.getX() > 9.5)
 						ret = false;
 				}
 				return ret;
