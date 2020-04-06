@@ -85,10 +85,16 @@ public class lBlock implements Tetromino {
 			blocks.set(3, new Block (firstBlock.getX() + 1, firstBlock.getY() + 1));
 		}
 		
-		else {
+		if (state%2 ==0) {
 			blocks.set(1, new Block (firstBlock.getX()-1, firstBlock.getY()));
-			blocks.set(2, new Block (firstBlock.getX()-1, firstBlock.getY() + 1));
-			blocks.set(3, new Block (firstBlock.getX()-1, firstBlock.getY() + 2));
+			blocks.set(2, new Block (firstBlock.getX()-1, firstBlock.getY() + 2));
+			blocks.set(3, new Block (firstBlock.getX()-1, firstBlock.getY() + 1));
+		}
+		
+		if(state %3 == 0) {
+			blocks.set(1, new Block(firstBlock.getX() - 1,firstBlock .getY() ));
+			blocks.set(2, new Block(firstBlock.getX() , firstBlock.getY() - 1 ));
+			blocks.set(3, new Block(firstBlock.getX() , firstBlock.getY() - 2));	
 		}
 		
 		state++;
