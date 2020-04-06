@@ -10,7 +10,9 @@ public class gameBoard {
 		StdDraw.setScale(-1, 20);
 	}
 	
+	
 	public void drawBoard() {
+		StdDraw.setPenColor(StdDraw.BLACK);
 		//Main Square
 		StdDraw.rectangle(10, 10, 5, 10);
 		
