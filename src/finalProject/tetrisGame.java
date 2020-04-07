@@ -186,6 +186,14 @@ public class tetrisGame {
 			StdDraw.square(block.getX() + 5, block.getY(), t.getRadius()/2);
 		}
 	}
+	
+	
+	private static void fastDrop() {
+		// TODO Auto-generated method stub
+		while(!collision()) {
+			currentBlock.moveDown();
+		}
+	}
 
 	/**
 	 * Initializes button presses on keyBoard 
@@ -228,6 +236,10 @@ public class tetrisGame {
                       	reDraw();
                  }
                    
+                  	if (ke.getKeyCode() == KeyEvent.VK_UP) {
+                    	fastDrop();
+                    	reDraw();
+                     }
                        
                     }
                    
@@ -248,6 +260,10 @@ public class tetrisGame {
             }
 
 	
+
+		
+
+
 
 			private boolean canMoveLeft() {
 				boolean ret = true;
