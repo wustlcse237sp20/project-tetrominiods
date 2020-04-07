@@ -79,19 +79,19 @@ public class tBlock implements Tetromino {
 	
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
-		if (state %2 == 1) { //rotate right
+		if (state %4 == 1) { //rotate right
 		blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1)); 
 		blocks.set(2, new Block (firstBlock.getX() + 1, firstBlock.getY()));
 		blocks.set(3, new Block (firstBlock.getX(), firstBlock.getY() + 1 ));	
 		}
 		
-		if (state %2 == 0) { //rotate right
+		if (state %4 == 2) { //rotate right
 		blocks.set(1, new Block (firstBlock.getX() - 1, firstBlock.getY()));
 		blocks.set(2, new Block (firstBlock.getX() , firstBlock.getY() -1 ));
 		blocks.set(3, new Block (firstBlock.getX() +1 , firstBlock.getY() ));
 		}
 		
-		if (state % 3 == 0) {
+		if (state % 4 == 3) {
 		blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY() + 1));
 		blocks.set(2, new Block (firstBlock.getX() - 1, firstBlock.getY()));
 		blocks.set(3, new Block (firstBlock.getX(), firstBlock.getY()-1));
