@@ -53,7 +53,7 @@ public class tetrisGame {
 	
 	public static boolean collision() {
 		for (Block b : currentBlock.getBlocks()) {
-			if (b.getY() < 0) {
+			if (b.getY() < 0.5) {
 				return true;
 			}
 			try {
@@ -78,9 +78,33 @@ public class tetrisGame {
 			moveToNextPiece();
 			
 		}
+		else {
+			drawPreview();
+		}
 		new gameBoard().drawBoard();
 		drawAllBlocks();
+		
+		
 		StdDraw.show(20);
+		
+		
+	}
+	
+	private static void drawPreview() {
+		Color initColor = currentBlock.getColor();
+		int count = 0;
+			while(!collision()) {
+				count++;
+				currentBlock.moveDown();
+			}
+			currentBlock.moveUp();
+			//waiting to set color
+			drawBlocks(currentBlock);
+			
+			currentBlock.moveDown();
+			 for (int i = 0; i < count; i++) {
+				 currentBlock.moveUp();
+			 }
 		
 	}
 	
@@ -204,24 +228,18 @@ public class tetrisGame {
                       	reDraw();
                  }
                    
-                        
-                        if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
-                        	timer.cancel();
-                			timer = new Timer();
-                			timer.schedule(new timedBlockMovement(), 0, 1000);
-                         }
+                       
                     }
                    
                     //
                     switch (ke.getID()) {
                     case KeyEvent.KEY_RELEASED:
-                    	 if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
-                    			
-                    			timer.cancel();
-                    			timer = new Timer();
-                    			timer.schedule(new timedBlockMovement(), 0, 700);
-                          }
+                    	
                     	 
+                        if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
+                        	currentBlock.moveDown();
+                        	reDraw();
+                         }
                     
                   
                     }
