@@ -75,25 +75,31 @@ public class jBlock implements Tetromino {
 	public Color getColor() {
 		return StdDraw.BLUE;
 	}
+	
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
 		for (Block b: blocks) {
 			if (state %2 ==  1) { //rotate right
-				blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1));
-				blocks.set(2, new Block (firstBlock.getX() + 1, firstBlock.getY()-1));
-				blocks.set(3, new Block (firstBlock.getX() + 2, firstBlock.getY()-1));
+			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1));
+			blocks.set(2, new Block (firstBlock.getX() + 1, firstBlock.getY()-1));
+			blocks.set(3, new Block (firstBlock.getX() + 2, firstBlock.getY()-1));
 			}
-			else {
-				
-				blocks.set(1, new Block(firstBlock.getX() + 1,firstBlock .getY() ));
-				blocks.set(2, new Block(firstBlock.getX() + 1, firstBlock.getY() +1 ));
-				blocks.set(3, new Block(firstBlock.getX() + 1, firstBlock.getY() + 2));
+			
+			if (state %2 == 0) {	
+			blocks.set(1, new Block(firstBlock.getX() + 1,firstBlock .getY() ));
+			blocks.set(2, new Block(firstBlock.getX() + 1, firstBlock.getY() +1 ));
+			blocks.set(3, new Block(firstBlock.getX() + 1, firstBlock.getY() + 2));
+			}
+			
+			if (state % 3 == 0) {
+			blocks.set(1, new Block(firstBlock.getX() + 1,firstBlock .getY() ));
+			blocks.set(2, new Block(firstBlock.getX(), firstBlock.getY() - 2 ));
+			blocks.set(3, new Block(firstBlock.getX() , firstBlock.getY() - 1));
 			}
 	  }
 		state++;
 		System.out.println(state);
 		
-	//change this so that you just call the method and can apply it through multiple states//
-
+	// needs to be fixed so that it resets/ decrements once state == 3
 	}
 }

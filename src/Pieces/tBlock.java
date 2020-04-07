@@ -76,21 +76,33 @@ public class tBlock implements Tetromino {
 	public Color getColor() {
 		return StdDraw.MAGENTA; //needs to be changed to purple
 	}
+	
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
 		if (state %2 == 1) { //rotate right
-			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1));
+		blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1)); 
+		blocks.set(2, new Block (firstBlock.getX() + 1, firstBlock.getY()));
+		blocks.set(3, new Block (firstBlock.getX(), firstBlock.getY() + 1 ));	
 		}
 		
 		if (state %2 == 0) { //rotate right
-				blocks.set(1, new Block (firstBlock.getX() - 1, firstBlock.getY()));
+		blocks.set(1, new Block (firstBlock.getX() - 1, firstBlock.getY()));
+		blocks.set(2, new Block (firstBlock.getX() , firstBlock.getY() -1 ));
+		blocks.set(3, new Block (firstBlock.getX() +1 , firstBlock.getY() ));
 		}
 		
+		if (state % 3 == 0) {
+		blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY() + 1));
+		blocks.set(2, new Block (firstBlock.getX() - 1, firstBlock.getY()));
+		blocks.set(3, new Block (firstBlock.getX(), firstBlock.getY()-1));
+	}
+		if (state % 4 == 0) {
+		blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()+1));
+		blocks.set(2, new Block (firstBlock.getX()+1, firstBlock.getY()));
+		blocks.set(3, new Block (firstBlock.getX() -1, firstBlock.getY()));
+		}
 		state++;
-	
-
 				
-		
-		
-}
+		//need to fix so it decrements from 4, but currently it has all 4 rotation states	
+	}
 }
