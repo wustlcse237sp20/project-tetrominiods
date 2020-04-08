@@ -25,4 +25,12 @@ public interface Tetromino {
 	public Color getColor();
 	
 	public void rotate();
+	
+	//fix this:
+	public void moveToHoldPosition(Block b);
+	
+	public void moveToXPos(Block b) ;
+	
+	public void moveToYPos(Block b) ;
+	
 }

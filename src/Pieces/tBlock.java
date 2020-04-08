@@ -105,4 +105,29 @@ public class tBlock implements Tetromino {
 				
 		//need to fix so it decrements from 4, but currently it has all 4 rotation states	
 	}
+	
+	public void moveToHoldPosition(Block b) {
+		moveToXPos(b);
+		moveToYPos(b);
+		
+	}
+	public void moveToXPos(Block b) {
+		while (blocks.get(0).getX() > b.getX()) {
+			moveLeft();
+		}
+		
+		while (blocks.get(0).getX() < b.getX()) {
+			moveRight();
+		}
+	}
+	
+	public void moveToYPos(Block b) {
+		while (blocks.get(0).getY() > b.getY()) {
+			moveDown();
+		}
+		
+		while (blocks.get(0).getY() < b.getY()) {
+			moveUp();
+		}
+	}
 }

@@ -26,6 +26,7 @@ public class tetrisGame {
 	public static Tetromino currentBlock = createNewPlayerBlock();
 	
 	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
+	public static Tetromino holdBlock;
 	public static Block [][] gameBoard = new Block[25][10];
 	public static Timer timer = timer = new Timer();
 	
@@ -84,12 +85,22 @@ public class tetrisGame {
 		new gameBoard().drawBoard();
 		drawAllBlocks();
 		
-		
+		if (holdBlock != null) {
+			drawUIBlock(holdBlock);
+		}
 		StdDraw.show(20);
 		
 		
 	}
 	
+	private static void drawUIBlock(Tetromino t) {
+		StdDraw.setPenColor(t.getColor());
+		for (Block block: t.getBlocks()) {
+			StdDraw.square(block.getX() + .1, block.getY() - 0.3, t.getRadius()/2);
+		}
+		
+	}
+
 	private static void drawPreview() {
 		Color initColor = currentBlock.getColor();
 		int count = 0;
@@ -234,11 +245,25 @@ public class tetrisGame {
                       		currentBlock.moveLeft();
                       	}
                       	reDraw();
-                 }
+                  	  }
                    
                   	if (ke.getKeyCode() == KeyEvent.VK_UP) {
                     	fastDrop();
                     	reDraw();
+                     }
+                  	
+                  	if (ke.getKeyCode() == KeyEvent.VK_Z) {
+                  		if (holdBlock == null) {
+	                    	holdBlock = currentBlock;
+	                    	holdBlock.moveToHoldPosition(new Block(1.5,18));
+	                    	currentBlock = createNewPlayerBlock();
+                  		}
+//                  		else {
+//                  			Tetromino hold = holdBlock;
+//                  			holdBlock = currentBlock;
+//                  			currentBlock = holdBlock;
+//	                    	
+//                  		}
                      }
                        
                     }

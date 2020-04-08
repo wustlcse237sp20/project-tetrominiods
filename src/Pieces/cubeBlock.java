@@ -78,5 +78,31 @@ public class cubeBlock implements Tetromino {
 		//Does nothing because its a square
 		
 		
-}
+	}
+	public void moveToHoldPosition(Block b) {
+		moveToXPos(b);
+		moveToYPos(b);
+		
+	}
+	public void moveToXPos(Block b) {
+		while (blocks.get(0).getX() > b.getX()) {
+			moveLeft();
+		}
+		
+		while (blocks.get(0).getX() < b.getX()) {
+			moveRight();
+		}
+	}
+	
+	public void moveToYPos(Block b) {
+		while (blocks.get(0).getY() > b.getY()) {
+			moveDown();
+		}
+		
+		while (blocks.get(0).getY() < b.getY()) {
+			moveUp();
+		}
+	}
+
+	
 }
