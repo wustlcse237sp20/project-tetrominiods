@@ -85,7 +85,7 @@ public class cubeBlock implements Tetromino {
 		
 	}
 	public void moveToXPos(Block b) {
-		while (blocks.get(0).getX() > b.getX()) {
+		while (blocks.get(0).getX() > b.getX()+1) {
 			moveLeft();
 		}
 		

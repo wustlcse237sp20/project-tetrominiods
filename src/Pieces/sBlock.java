@@ -111,7 +111,7 @@ public class sBlock implements Tetromino {
 			moveDown();
 		}
 		
-		while (blocks.get(0).getY() < b.getY()) {
+		while (blocks.get(0).getY() < b.getY()-1) {
 			moveUp();
 		}
 	}
