@@ -34,18 +34,11 @@ public class tetrisGame {
 		new gameBoard().setup();
 		new gameBoard().drawBoard();
 		setupKeyboard();
-		
-		//Create Player's Block
-//		addBlock(currentBlock);
-		
-		
-		
 		timer.schedule(new timedBlockMovement(), 0, 700);
 	
 	}
 
 	private static void addBlock(Tetromino t) {
-		// TODO Auto-generated method stub
 		for(Block b: t.getBlocks()) {
 			allBlocks.add(b);
 		}
@@ -65,7 +58,6 @@ public class tetrisGame {
 			}
 			try {
 				if (gameBoard[(int)b.getY()][(int)b.getX()] != null) {
-					
 					return true;
 				}
 			}
@@ -79,15 +71,17 @@ public class tetrisGame {
 	/**
 	 * Draws the entire game in its current state (should be called per each movement)
 	 */
-	public static void reDraw() {
+	public static void advanceGame() {
 		clearBoard();
+		
+		
 		if (collision()) {
 			moveToNextPiece();
 			checkForLineClear();
 		}
-		else {
+
 			drawPreview();
-		}
+
 		
 		drawTetromino(currentBlock);
 		new gameBoard().drawBoard();
@@ -103,7 +97,6 @@ public class tetrisGame {
 	
 	private static void checkForLineClear() {
 		
-		System.out.println("Rows ");
 		for (int i =0; i < gameBoard.length; i++) {
 			
 			int count=0;
@@ -113,21 +106,17 @@ public class tetrisGame {
 				}
 			}
 			if (count >= 10) {
-				System.out.println("Row " + i + " is full");
 				moveRowsDownFromPos(i);
-				System.out.println(i + "\t");
 				i--;
 			}
 		}
 		
-		System.out.println("Need to be cleared");
 		
 	}
 
 	private static void moveRowsDownFromPos(int startPos) {
 		// TODO Auto-generated method stub
 
-		System.out.println("Clearing Board");
 		for(int i = startPos+1; i < gameBoard.length; i++) {
 			for(int j = 0; j < gameBoard[0].length; j++) {
 				gameBoard[i-1][j] = gameBoard[i][j];
@@ -149,7 +138,6 @@ public class tetrisGame {
 		for (Block b: blocksToRemove){
 			allBlocks.remove(b);
 		}
-		System.out.println("removed");
 		
 	}
 
@@ -162,7 +150,6 @@ public class tetrisGame {
 	}
 
 	private static void drawPreview() {
-		Color initColor = currentBlock.getColor();
 		int count = 0;
 			while(!collision()) {
 				count++;
@@ -170,8 +157,8 @@ public class tetrisGame {
 			}
 			currentBlock.moveUp();
 			//waiting to set color
-			drawTetromino(currentBlock);
 			
+			drawTetromino(currentBlock);
 			currentBlock.moveDown();
 			 for (int i = 0; i < count; i++) {
 				 currentBlock.moveUp();
@@ -240,6 +227,8 @@ public class tetrisGame {
 		}
 	}
 	
+	
+
 
 	/**
 	 * Draws all Tetromino Pieces in the game
@@ -292,7 +281,7 @@ public class tetrisGame {
 	                        	if (collision()) {
 	                        		currentBlock.moveRight();
 	                        	}
-	                        	reDraw();
+	                        	advanceGame();
                         	}
                         }
                         if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -301,7 +290,7 @@ public class tetrisGame {
 	                        	if (collision()) {
 	                        		currentBlock.moveLeft();
 	                        	}
-	                        	reDraw();
+	                        	advanceGame();
                         	}
                          }
                         
@@ -311,12 +300,12 @@ public class tetrisGame {
                       	while(collision()) {
                       		currentBlock.moveLeft();
                       	}
-                      	reDraw();
+                      	advanceGame();
                   	  }
                    
                   	if (ke.getKeyCode() == KeyEvent.VK_UP) {
                     	fastDrop();
-                    	reDraw();
+                    	advanceGame();
                      }
                   	
                   	if (ke.getKeyCode() == KeyEvent.VK_Z) {
@@ -342,7 +331,7 @@ public class tetrisGame {
                     	 
                         if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
                         	currentBlock.moveDown();
-                        	reDraw();
+                        	advanceGame();
                          }
                     
                   
