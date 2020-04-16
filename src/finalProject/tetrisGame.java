@@ -35,7 +35,6 @@ public class tetrisGame {
 		new gameBoard().drawBoard();
 		setupKeyboard();
 		timer.schedule(new timedBlockMovement(), 0, 700);
-	
 	}
 
 	private static void addBlock(Tetromino t) {
@@ -73,32 +72,33 @@ public class tetrisGame {
 	 */
 	public static void advanceGame() {
 		clearBoard();
-		
-		
 		if (collision()) {
-			moveToNextPiece();
-			checkForLineClear();
+			startNextTurn();
 		}
-
-			drawPreview();
-
+		redrawGame();
+		StdDraw.show(20);
 		
+		
+	}
+
+	private static void redrawGame() {
 		drawTetromino(currentBlock);
+		drawPreview();
 		new gameBoard().drawBoard();
 		drawGameBlocks();
 		
 		if (holdBlock != null) {
 			drawUIBlock(holdBlock);
 		}
-		StdDraw.show(20);
-		
-		
+	}
+
+	private static void startNextTurn() {
+		moveToNextPiece();
+		checkForLineClear();
 	}
 	
 	private static void checkForLineClear() {
-		
 		for (int i =0; i < gameBoard.length; i++) {
-			
 			int count=0;
 			for (int j = 0; j < gameBoard[0].length; j++) {
 				if (gameBoard[i][j] != null) {
@@ -107,7 +107,7 @@ public class tetrisGame {
 			}
 			if (count >= 10) {
 				moveRowsDownFromPos(i);
-				i--;
+				i--;  //decrements because we just removed a row
 			}
 		}
 		
@@ -115,15 +115,13 @@ public class tetrisGame {
 	}
 
 	private static void moveRowsDownFromPos(int startPos) {
-		// TODO Auto-generated method stub
+		removeLinesFromGameBoard(startPos);
+		removeLinesFromObstacle(startPos);
+		
+	}
 
-		for(int i = startPos+1; i < gameBoard.length; i++) {
-			for(int j = 0; j < gameBoard[0].length; j++) {
-				gameBoard[i-1][j] = gameBoard[i][j];
-			}
-			
-		}
-		ArrayList<Block> blocksToRemove = new ArrayList();
+	private static void removeLinesFromObstacle(int startPos) {
+		ArrayList<Block> blocksToRemove = new ArrayList<Block>();
 		for(Block b: allBlocks) {
 			if(b.getY() == (int)startPos) {
 				blocksToRemove.add(b);
@@ -131,14 +129,22 @@ public class tetrisGame {
 			}
 			else if(b.getY()>(int)startPos) {
 				b.moveDown();
-				if(b.getY() <0.5)
+				if(b.getY() <0.5) {
 					blocksToRemove.add(b);
+				}
 			}
 		}
 		for (Block b: blocksToRemove){
 			allBlocks.remove(b);
 		}
-		
+	}
+
+	private static void removeLinesFromGameBoard(int startPos) {
+		for(int i = startPos+1; i < gameBoard.length; i++) {
+			for(int j = 0; j < gameBoard[0].length; j++) {
+				gameBoard[i-1][j] = gameBoard[i][j];
+			}
+		}
 	}
 
 	private static void drawUIBlock(Tetromino t) {
@@ -151,21 +157,33 @@ public class tetrisGame {
 
 	private static void drawPreview() {
 		int count = 0;
-			while(!collision()) {
-				count++;
-				currentBlock.moveDown();
-			}
-			currentBlock.moveUp();
-			//waiting to set color
-			
-			drawTetromino(currentBlock);
+		//Moves down until collision
+		while(!collision()) {
+			count++;
 			currentBlock.moveDown();
-			 for (int i = 0; i < count; i++) {
-				 currentBlock.moveUp();
-			 }
+		}
+		currentBlock.moveUp();
+		Color saveColor = currentBlock.getColor();
+		changeBlocksToColor(StdDraw.GRAY, currentBlock);
+		drawTetromino(currentBlock);
+		changeBlocksToColor(saveColor, currentBlock);
+		
+		currentBlock.moveDown();
+		
+		//Move Back up afterwards
+		 for (int i = 0; i < count; i++) {
+			 currentBlock.moveUp();
+	 }
+		
+}
+	
+	private static void changeBlocksToColor(Color c, Tetromino t) {
+		for(Block b: t.getBlocks()) {
+			b.setColor(c);
+		}
 		
 	}
-	
+
 	private static void moveToNextPiece() {
 		currentBlock.moveUp();
 		setAsObstacle(currentBlock);
@@ -173,10 +191,14 @@ public class tetrisGame {
 		currentBlock = createNewPlayerBlock();
 
 		if (checkForGameLoss()) {
-			new gameBoard().printLosingScreen();
-			timer.cancel();
-			System. exit(0);
+			endGame();
 		}
+	}
+
+	private static void endGame() {
+		new gameBoard().printLosingScreen();
+		timer.cancel();
+		System. exit(0);
 	}
 	
 	private static boolean checkForGameLoss() {
@@ -189,8 +211,9 @@ public class tetrisGame {
 	public static Tetromino createNewPlayerBlock() {
 		int randIndex = (int)(Math.random() * 7);//gets a random number corresponding to block 
 		
-		if (randIndex == 0)
+		if (randIndex == 0) {
 			return new cubeBlock(new Block(5.5,17.5),1);
+		}
 		
 		else if (randIndex == 1) {
 			return new lineBlock(new Block(5.5,17.5),1);
