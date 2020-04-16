@@ -104,7 +104,7 @@ public class lineBlock implements Tetromino {
 		
 	}
 	public void moveToXPos(Block b) {
-		while (blocks.get(0).getX() > b.getX()) {
+		while (blocks.get(0).getX() > b.getX()+1) {
 			moveLeft();
 		}
 		
@@ -118,7 +118,7 @@ public class lineBlock implements Tetromino {
 			moveDown();
 		}
 		
-		while (blocks.get(0).getY() < b.getY()) {
+		while (blocks.get(0).getY() < b.getY()-2) {
 			moveUp();
 		}
 	}

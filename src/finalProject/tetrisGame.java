@@ -310,16 +310,21 @@ public class tetrisGame {
                   	
                   	if (ke.getKeyCode() == KeyEvent.VK_Z) {
                   		if (holdBlock == null) {
+                  			allBlocks.remove(currentBlock);
 	                    	holdBlock = currentBlock;
 	                    	holdBlock.moveToHoldPosition(new Block(1.5,18));
+	                    	allBlocks.remove(holdBlock);
 	                    	currentBlock = createNewPlayerBlock();
+	                    	allBlocks.add(currentBlock);
                   		}
-//                  		else {
-//                  			Tetromino hold = holdBlock;
-//                  			holdBlock = currentBlock;
-//                  			currentBlock = holdBlock;
-//	                    	
-//                  		}
+                  		else {
+                  			Tetromino temp = holdBlock;
+                  			holdBlock = currentBlock;
+                  			holdBlock.moveToHoldPosition(new Block(1.5,18));
+                  			allBlocks.remove(holdBlock);
+                  			currentBlock = temp;
+	                    	allBlocks.add(currentBlock);
+                  		}
                      }
                        
                     }
