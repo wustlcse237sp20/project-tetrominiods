@@ -25,7 +25,7 @@ public class tetrisGame {
 	
 	public static Tetromino currentBlock = createNewPlayerBlock();
 	
-	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
+	public static ArrayList<Block> allBlocks = new ArrayList<>();
 	public static Tetromino holdBlock;
 	public static Block [][] gameBoard = new Block[25][10];
 	public static Timer timer = timer = new Timer();
@@ -34,15 +34,14 @@ public class tetrisGame {
 		new gameBoard().setup();
 		new gameBoard().drawBoard();
 		setupKeyboard();
-		
-		//Create Player's Block
-		allBlocks.add(currentBlock);
-		
-		
-		for (Tetromino b: allBlocks) {
-			drawBlocks(b);
-		}
 		timer.schedule(new timedBlockMovement(), 0, 700);
+	
+	}
+
+	private static void addBlock(Tetromino t) {
+		for(Block b: t.getBlocks()) {
+			allBlocks.add(b);
+		}
 	
 	}
 
@@ -59,7 +58,6 @@ public class tetrisGame {
 			}
 			try {
 				if (gameBoard[(int)b.getY()][(int)b.getX()] != null) {
-					
 					return true;
 				}
 			}
@@ -73,17 +71,21 @@ public class tetrisGame {
 	/**
 	 * Draws the entire game in its current state (should be called per each movement)
 	 */
-	public static void reDraw() {
+	public static void advanceGame() {
 		clearBoard();
+		
+		
 		if (collision()) {
 			moveToNextPiece();
-			
+			checkForLineClear();
 		}
-		else {
+
 			drawPreview();
-		}
+
+		
+		drawTetromino(currentBlock);
 		new gameBoard().drawBoard();
-		drawAllBlocks();
+		drawGameBlocks();
 		
 		if (holdBlock != null) {
 			drawUIBlock(holdBlock);
@@ -93,6 +95,52 @@ public class tetrisGame {
 		
 	}
 	
+	private static void checkForLineClear() {
+		
+		for (int i =0; i < gameBoard.length; i++) {
+			
+			int count=0;
+			for (int j = 0; j < gameBoard[0].length; j++) {
+				if (gameBoard[i][j] != null) {
+					count++;
+				}
+			}
+			if (count >= 10) {
+				moveRowsDownFromPos(i);
+				i--;
+			}
+		}
+		
+		
+	}
+
+	private static void moveRowsDownFromPos(int startPos) {
+		// TODO Auto-generated method stub
+
+		for(int i = startPos+1; i < gameBoard.length; i++) {
+			for(int j = 0; j < gameBoard[0].length; j++) {
+				gameBoard[i-1][j] = gameBoard[i][j];
+			}
+			
+		}
+		ArrayList<Block> blocksToRemove = new ArrayList();
+		for(Block b: allBlocks) {
+			if(b.getY() == (int)startPos) {
+				blocksToRemove.add(b);
+			
+			}
+			else if(b.getY()>(int)startPos) {
+				b.moveDown();
+				if(b.getY() <0.5)
+					blocksToRemove.add(b);
+			}
+		}
+		for (Block b: blocksToRemove){
+			allBlocks.remove(b);
+		}
+		
+	}
+
 	private static void drawUIBlock(Tetromino t) {
 		StdDraw.setPenColor(t.getColor());
 		for (Block block: t.getBlocks()) {
@@ -102,7 +150,6 @@ public class tetrisGame {
 	}
 
 	private static void drawPreview() {
-		Color initColor = currentBlock.getColor();
 		int count = 0;
 			while(!collision()) {
 				count++;
@@ -110,8 +157,8 @@ public class tetrisGame {
 			}
 			currentBlock.moveUp();
 			//waiting to set color
-			drawBlocks(currentBlock);
 			
+			drawTetromino(currentBlock);
 			currentBlock.moveDown();
 			 for (int i = 0; i < count; i++) {
 				 currentBlock.moveUp();
@@ -122,8 +169,9 @@ public class tetrisGame {
 	private static void moveToNextPiece() {
 		currentBlock.moveUp();
 		setAsObstacle(currentBlock);
+		addBlock(currentBlock);
 		currentBlock = createNewPlayerBlock();
-		allBlocks.add(currentBlock);
+
 		if (checkForGameLoss()) {
 			new gameBoard().printLosingScreen();
 			timer.cancel();
@@ -171,13 +219,23 @@ public class tetrisGame {
 	
 		
 	}
+	
+	
+	private static void drawTetromino(Tetromino t) {
+		for (Block b: t.getBlocks()) {
+			drawBlocks(b);
+		}
+	}
+	
+	
+
 
 	/**
 	 * Draws all Tetromino Pieces in the game
 	 */
 	
-	private static void drawAllBlocks() {
-		for (Tetromino b: allBlocks) {
+	private static void drawGameBlocks() {
+		for (Block b: allBlocks) {
 			drawBlocks(b);
 		}
 	}
@@ -191,11 +249,9 @@ public class tetrisGame {
 	 * Draws each block in the tetris piece given (currently blue)
 	 * @param t Tetris piece to draw
 	 */
-	public static void drawBlocks(Tetromino t) {
-		StdDraw.setPenColor(t.getColor());
-		for (Block block: t.getBlocks()) {
-			StdDraw.square(block.getX() + 5, block.getY(), t.getRadius()/2);
-		}
+	public static void drawBlocks(Block b) {
+		StdDraw.setPenColor(b.getColor());
+		StdDraw.square(b.getX() + 5, b.getY(), .5);
 	}
 	
 	
@@ -225,7 +281,7 @@ public class tetrisGame {
 	                        	if (collision()) {
 	                        		currentBlock.moveRight();
 	                        	}
-	                        	reDraw();
+	                        	advanceGame();
                         	}
                         }
                         if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -234,7 +290,7 @@ public class tetrisGame {
 	                        	if (collision()) {
 	                        		currentBlock.moveLeft();
 	                        	}
-	                        	reDraw();
+	                        	advanceGame();
                         	}
                          }
                         
@@ -244,12 +300,12 @@ public class tetrisGame {
                       	while(collision()) {
                       		currentBlock.moveLeft();
                       	}
-                      	reDraw();
+                      	advanceGame();
                   	  }
                    
                   	if (ke.getKeyCode() == KeyEvent.VK_UP) {
                     	fastDrop();
-                    	reDraw();
+                    	advanceGame();
                      }
                   	
                   	if (ke.getKeyCode() == KeyEvent.VK_Z) {
@@ -275,7 +331,7 @@ public class tetrisGame {
                     	 
                         if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
                         	currentBlock.moveDown();
-                        	reDraw();
+                        	advanceGame();
                          }
                     
                   

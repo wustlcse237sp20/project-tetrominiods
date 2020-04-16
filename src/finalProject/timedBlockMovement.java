@@ -9,6 +9,6 @@ class timedBlockMovement extends TimerTask {
     	Block centerBlock = tetrisGame.currentBlock.getBlocks().get(0);
       tetrisGame.currentBlock.moveDown();
      
-       tetrisGame.reDraw();
+       tetrisGame.advanceGame();
     }
 }//
