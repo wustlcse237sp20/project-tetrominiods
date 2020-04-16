@@ -269,7 +269,8 @@ public class tetrisGame {
 	
 	private static void setupKeyboard() {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
+            @SuppressWarnings("unlikely-arg-type")
+			@Override
             public boolean dispatchKeyEvent(KeyEvent ke) {
                 synchronized (tetrisGame.class) {
                     switch (ke.getID()) {
@@ -315,7 +316,6 @@ public class tetrisGame {
 	                    	holdBlock.moveToHoldPosition(new Block(1.5,18));
 	                    	allBlocks.remove(holdBlock);
 	                    	currentBlock = createNewPlayerBlock();
-	                    	allBlocks.add(currentBlock);
                   		}
                   		else {
                   			Tetromino temp = holdBlock;
@@ -323,7 +323,6 @@ public class tetrisGame {
                   			holdBlock.moveToHoldPosition(new Block(1.5,18));
                   			allBlocks.remove(holdBlock);
                   			currentBlock = temp;
-	                    	allBlocks.add(currentBlock);
                   		}
                      }
                        
