@@ -34,7 +34,8 @@ public class gameBoard {
 		
 		//Next Block Square
 		StdDraw.rectangle(16.5, 15, 1.5, 5);
-		
+		Font subtitle = new Font("Arial",Font.CENTER_BASELINE,30);
+		StdDraw.setFont(subtitle);
 		StdDraw.text(16.5, 5, "Pause"); 
 	}
 
@@ -50,9 +51,11 @@ public class gameBoard {
 		StdDraw.text(10, 13, "Resume");
 		StdDraw.text(10, 11, "Tutorial");
 		StdDraw.text(10, 9, "Quit Game");
+		StdDraw.show();
 	}
 	
 	public void resumeScreen() {
+		StdDraw.clear();
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.rectangle(10, 10, 5, 10);
 		Font titleFont = new Font("Arial",Font.BOLD,70);
