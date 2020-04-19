@@ -32,6 +32,7 @@ public class tetrisGame {
 	
 	public static void main(String [] args) {
 		new gameBoard().setup();
+		startMenu();
 		new gameBoard().drawBoard();
 		setupKeyboard();
 		
@@ -44,6 +45,60 @@ public class tetrisGame {
 		}
 		timer.schedule(new timedBlockMovement(), 0, 700);
 	
+	}
+	
+	public static void startMenu() {
+		new gameBoard().startScreen();
+		boolean mouseClick = false;
+		while(mouseClick == false) {
+			if (StdDraw.mousePressed()) {
+				double x = StdDraw.mouseX();
+				double y = StdDraw.mouseY();
+				//If the the start button is clicked, then break out the loop to start the game.
+				if(((x >= 9.5) && (x <=10.5)) && ((y >=9.5)&&(y<=10.5))){ //if the click is on the play button
+					mouseClick = true;
+				}
+				
+			}
+		StdDraw.pause(20);
+		}
+	}
+	
+	public static void pauseMenu() {
+		System.out.println("paused");
+		new gameBoard().pauseScreen();
+		boolean mouseClick = false;
+		while(mouseClick == false) {
+			if (StdDraw.mousePressed()) {
+				double x = StdDraw.mouseX();
+				double y = StdDraw.mouseY();
+				//If resume button is clicked
+				if(((x >= 9.5) && (x <=10.5)) && ((y >=12.5)&&(y<=13.5))){ //if the click is on the play button
+					mouseClick = true;
+					resumeScreen();
+				}
+				//If tutorial button is clicked
+				else if(((x >= 9.5) && (x <=10.5)) && ((y >=10.5)&&(y<=11.5))){ //if the click is on the play button
+					mouseClick = true;
+					//idk if we'll keep this lol
+				}
+				//If "quit game" button is clicked
+				else if(((x >= 9.5) && (x <=10.5)) && ((y >=8.5)&&(y<=9.5))){ //if the click is on the play button
+					mouseClick = true;
+					new gameBoard().printLosingScreen();
+					timer.cancel();
+					System. exit(0);
+				}
+				else {
+					//do nothing
+				}
+			}
+		StdDraw.pause(20);
+		}
+	}
+	
+	public static void resumeScreen() {
+		new gameBoard().resumeScreen();
 	}
 
 	private static void setAsObstacle(Tetromino b) {
@@ -74,7 +129,17 @@ public class tetrisGame {
 	 * Draws the entire game in its current state (should be called per each movement)
 	 */
 	public static void reDraw() {
+		System.out.println("hey");
 		clearBoard();
+		//if the pause button has been clicked, go to pause menu
+		if(StdDraw.mousePressed()) {
+			double x = StdDraw.mouseX();
+			double y = StdDraw.mouseY();
+			if(((x >= 16.0) && (x <=17.0)) && ((y >=4.5)&&(y<=5.5))){ //if the click is on the play button
+				pauseMenu();
+			}
+		}
+		
 		if (collision()) {
 			moveToNextPiece();
 			
@@ -266,6 +331,7 @@ public class tetrisGame {
 //                  		}
                      }
                        
+            
                     }
                    
                     //
@@ -309,6 +375,7 @@ public class tetrisGame {
 			}
 		});
 	}
+	
 }
 	
         
