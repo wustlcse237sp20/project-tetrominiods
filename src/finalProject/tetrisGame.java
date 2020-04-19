@@ -25,7 +25,7 @@ public class tetrisGame {
 	
 	public static Tetromino currentBlock = createNewPlayerBlock();
 	
-	public static ArrayList<Tetromino> allBlocks = new ArrayList<>();
+	public static ArrayList<Block> allBlocks = new ArrayList<>();
 	public static Tetromino holdBlock;
 	public static Block [][] gameBoard = new Block[25][10];
 	public static Timer timer = timer = new Timer();
@@ -35,15 +35,13 @@ public class tetrisGame {
 		startMenu();
 		new gameBoard().drawBoard();
 		setupKeyboard();
-		
-		//Create Player's Block
-		allBlocks.add(currentBlock);
-		
-		
-		for (Tetromino b: allBlocks) {
-			drawBlocks(b);
-		}
 		timer.schedule(new timedBlockMovement(), 0, 700);
+	}
+
+	private static void addBlock(Tetromino t) {
+		for(Block b: t.getBlocks()) {
+			allBlocks.add(b);
+		}
 	
 	}
 	
@@ -114,7 +112,6 @@ public class tetrisGame {
 			}
 			try {
 				if (gameBoard[(int)b.getY()][(int)b.getX()] != null) {
-					
 					return true;
 				}
 			}
@@ -128,8 +125,7 @@ public class tetrisGame {
 	/**
 	 * Draws the entire game in its current state (should be called per each movement)
 	 */
-	public static void reDraw() {
-		System.out.println("hey");
+	public static void advanceGame() {
 		clearBoard();
 		//if the pause button has been clicked, go to pause menu
 		if(StdDraw.mousePressed()) {
@@ -141,23 +137,80 @@ public class tetrisGame {
 		}
 		
 		if (collision()) {
-			moveToNextPiece();
-			
+			startNextTurn();
 		}
-		else {
-			drawPreview();
-		}
-		new gameBoard().drawBoard();
-		drawAllBlocks();
-		
-		if (holdBlock != null) {
-			drawUIBlock(holdBlock);
-		}
+		redrawGame();
 		StdDraw.show(20);
 		
 		
 	}
+
+	private static void redrawGame() {
+		drawTetromino(currentBlock);
+		drawPreview();
+		new gameBoard().drawBoard();
+		drawGameBlocks();
+		
+		if (holdBlock != null) {
+			drawUIBlock(holdBlock);
+		}
+	}
+
+	private static void startNextTurn() {
+		moveToNextPiece();
+		checkForLineClear();
+	}
 	
+	private static void checkForLineClear() {
+		for (int i =0; i < gameBoard.length; i++) {
+			int count=0;
+			for (int j = 0; j < gameBoard[0].length; j++) {
+				if (gameBoard[i][j] != null) {
+					count++;
+				}
+			}
+			if (count >= 10) {
+				moveRowsDownFromPos(i);
+				i--;  //decrements because we just removed a row
+			}
+		}
+		
+		
+	}
+
+	private static void moveRowsDownFromPos(int startPos) {
+		removeLinesFromGameBoard(startPos);
+		removeLinesFromObstacle(startPos);
+		
+	}
+
+	private static void removeLinesFromObstacle(int startPos) {
+		ArrayList<Block> blocksToRemove = new ArrayList<Block>();
+		for(Block b: allBlocks) {
+			if(b.getY() == (int)startPos) {
+				blocksToRemove.add(b);
+			
+			}
+			else if(b.getY()>(int)startPos) {
+				b.moveDown();
+				if(b.getY() <0.5) {
+					blocksToRemove.add(b);
+				}
+			}
+		}
+		for (Block b: blocksToRemove){
+			allBlocks.remove(b);
+		}
+	}
+
+	private static void removeLinesFromGameBoard(int startPos) {
+		for(int i = startPos+1; i < gameBoard.length; i++) {
+			for(int j = 0; j < gameBoard[0].length; j++) {
+				gameBoard[i-1][j] = gameBoard[i][j];
+			}
+		}
+	}
+
 	private static void drawUIBlock(Tetromino t) {
 		StdDraw.setPenColor(t.getColor());
 		for (Block block: t.getBlocks()) {
@@ -167,33 +220,49 @@ public class tetrisGame {
 	}
 
 	private static void drawPreview() {
-		Color initColor = currentBlock.getColor();
 		int count = 0;
-			while(!collision()) {
-				count++;
-				currentBlock.moveDown();
-			}
-			currentBlock.moveUp();
-			//waiting to set color
-			drawBlocks(currentBlock);
-			
+		//Moves down until collision
+		while(!collision()) {
+			count++;
 			currentBlock.moveDown();
-			 for (int i = 0; i < count; i++) {
-				 currentBlock.moveUp();
-			 }
+		}
+		currentBlock.moveUp();
+		Color saveColor = currentBlock.getColor();
+		changeBlocksToColor(StdDraw.GRAY, currentBlock);
+		drawTetromino(currentBlock);
+		changeBlocksToColor(saveColor, currentBlock);
+		
+		currentBlock.moveDown();
+		
+		//Move Back up afterwards
+		 for (int i = 0; i < count; i++) {
+			 currentBlock.moveUp();
+	 }
+		
+}
+	
+	private static void changeBlocksToColor(Color c, Tetromino t) {
+		for(Block b: t.getBlocks()) {
+			b.setColor(c);
+		}
 		
 	}
-	
+
 	private static void moveToNextPiece() {
 		currentBlock.moveUp();
 		setAsObstacle(currentBlock);
+		addBlock(currentBlock);
 		currentBlock = createNewPlayerBlock();
-		allBlocks.add(currentBlock);
+
 		if (checkForGameLoss()) {
-			new gameBoard().printLosingScreen();
-			timer.cancel();
-			System. exit(0);
+			endGame();
 		}
+	}
+
+	private static void endGame() {
+		new gameBoard().printLosingScreen();
+		timer.cancel();
+		System. exit(0);
 	}
 	
 	private static boolean checkForGameLoss() {
@@ -206,8 +275,9 @@ public class tetrisGame {
 	public static Tetromino createNewPlayerBlock() {
 		int randIndex = (int)(Math.random() * 7);//gets a random number corresponding to block 
 		
-		if (randIndex == 0)
+		if (randIndex == 0) {
 			return new cubeBlock(new Block(5.5,17.5),1);
+		}
 		
 		else if (randIndex == 1) {
 			return new lineBlock(new Block(5.5,17.5),1);
@@ -236,13 +306,23 @@ public class tetrisGame {
 	
 		
 	}
+	
+	
+	private static void drawTetromino(Tetromino t) {
+		for (Block b: t.getBlocks()) {
+			drawBlocks(b);
+		}
+	}
+	
+	
+
 
 	/**
 	 * Draws all Tetromino Pieces in the game
 	 */
 	
-	private static void drawAllBlocks() {
-		for (Tetromino b: allBlocks) {
+	private static void drawGameBlocks() {
+		for (Block b: allBlocks) {
 			drawBlocks(b);
 		}
 	}
@@ -256,11 +336,9 @@ public class tetrisGame {
 	 * Draws each block in the tetris piece given (currently blue)
 	 * @param t Tetris piece to draw
 	 */
-	public static void drawBlocks(Tetromino t) {
-		StdDraw.setPenColor(t.getColor());
-		for (Block block: t.getBlocks()) {
-			StdDraw.square(block.getX() + 5, block.getY(), t.getRadius()/2);
-		}
+	public static void drawBlocks(Block b) {
+		StdDraw.setPenColor(b.getColor());
+		StdDraw.square(b.getX() + 5, b.getY(), .5);
 	}
 	
 	
@@ -278,7 +356,8 @@ public class tetrisGame {
 	
 	private static void setupKeyboard() {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
+            @SuppressWarnings("unlikely-arg-type")
+			@Override
             public boolean dispatchKeyEvent(KeyEvent ke) {
                 synchronized (tetrisGame.class) {
                     switch (ke.getID()) {
@@ -290,7 +369,7 @@ public class tetrisGame {
 	                        	if (collision()) {
 	                        		currentBlock.moveRight();
 	                        	}
-	                        	reDraw();
+	                        	advanceGame();
                         	}
                         }
                         if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -299,7 +378,7 @@ public class tetrisGame {
 	                        	if (collision()) {
 	                        		currentBlock.moveLeft();
 	                        	}
-	                        	reDraw();
+	                        	advanceGame();
                         	}
                          }
                         
@@ -309,26 +388,29 @@ public class tetrisGame {
                       	while(collision()) {
                       		currentBlock.moveLeft();
                       	}
-                      	reDraw();
+                      	advanceGame();
                   	  }
                    
                   	if (ke.getKeyCode() == KeyEvent.VK_UP) {
                     	fastDrop();
-                    	reDraw();
+                    	advanceGame();
                      }
                   	
                   	if (ke.getKeyCode() == KeyEvent.VK_Z) {
                   		if (holdBlock == null) {
+                  			allBlocks.remove(currentBlock);
 	                    	holdBlock = currentBlock;
 	                    	holdBlock.moveToHoldPosition(new Block(1.5,18));
+	                    	allBlocks.remove(holdBlock);
 	                    	currentBlock = createNewPlayerBlock();
                   		}
-//                  		else {
-//                  			Tetromino hold = holdBlock;
-//                  			holdBlock = currentBlock;
-//                  			currentBlock = holdBlock;
-//	                    	
-//                  		}
+                  		else {
+                  			Tetromino temp = holdBlock;
+                  			holdBlock = currentBlock;
+                  			holdBlock.moveToHoldPosition(new Block(1.5,18));
+                  			allBlocks.remove(holdBlock);
+                  			currentBlock = temp;
+                  		}
                      }
                        
             
@@ -341,7 +423,7 @@ public class tetrisGame {
                     	 
                         if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
                         	currentBlock.moveDown();
-                        	reDraw();
+                        	advanceGame();
                          }
                     
                   

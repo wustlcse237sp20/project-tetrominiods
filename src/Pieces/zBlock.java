@@ -34,16 +34,16 @@ public class zBlock implements Tetromino {
 	
 	public void initializeBlock() {
 		//Top Left
-		this.blocks.add(new Block(this.center.getX() - radius, this.center.getY()));
+		this.blocks.add(new Block(this.center.getX() - radius, this.center.getY(), getColor()));
 		
 		//Top Center
-		this.blocks.add(new Block(this.center.getX(), this.center.getY()));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY(), getColor()));
 		
 		//Bottom Center
-		this.blocks.add(new Block(this.center.getX(), this.center.getY() - radius));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() - radius, getColor()));
 		
 		///Bottom Right
-		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() - radius));
+		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() - radius, getColor()));
 				
 	}
 	
@@ -77,15 +77,15 @@ public class zBlock implements Tetromino {
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
 		if (state %2 == 1) { //rotate right
-			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()+1));
-			blocks.set(2, new Block (firstBlock.getX() + 1, firstBlock.getY()));
-			blocks.set(3, new Block (firstBlock.getX() , firstBlock.getY()-1));
+			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()+1, getColor()));
+			blocks.set(2, new Block (firstBlock.getX() + 1, firstBlock.getY(), getColor()));
+			blocks.set(3, new Block (firstBlock.getX() , firstBlock.getY()-1, getColor()));
 		}
 		
 		else{
-			blocks.set(1, new Block (firstBlock.getX()+1, firstBlock.getY()));
-			blocks.set(2, new Block (firstBlock.getX()+1, firstBlock.getY()-1));
-			blocks.set(3, new Block (firstBlock.getX()+2, firstBlock.getY()-1));
+			blocks.set(1, new Block (firstBlock.getX()+1, firstBlock.getY(), getColor()));
+			blocks.set(2, new Block (firstBlock.getX()+1, firstBlock.getY()-1, getColor()));
+			blocks.set(3, new Block (firstBlock.getX()+2, firstBlock.getY()-1, getColor()));
 		}
 		state++;
 		

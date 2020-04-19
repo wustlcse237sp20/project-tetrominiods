@@ -34,16 +34,16 @@ public class cubeBlock implements Tetromino {
 	
 	public void initializeBlock() {
 		//Make upperLeft Block
-		this.blocks.add(new Block(this.center.getX(), this.center.getY()));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY(), getColor()));
 		
 		//Upper Right
-		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY()));
+		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY(), getColor()));
 		
 		//Bottom Left
-		this.blocks.add(new Block(this.center.getX(), this.center.getY() - radius));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() - radius, getColor()));
 		
 		///Bottom Right
-		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() - radius));
+		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() - radius, getColor()));
 				
 	}
 	
@@ -85,7 +85,7 @@ public class cubeBlock implements Tetromino {
 		
 	}
 	public void moveToXPos(Block b) {
-		while (blocks.get(0).getX() > b.getX()) {
+		while (blocks.get(0).getX() > b.getX()+1) {
 			moveLeft();
 		}
 		

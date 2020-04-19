@@ -1,5 +1,6 @@
 package Pieces;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class Block {
@@ -11,6 +12,7 @@ public class Block {
 	private Block center;
 	private double radius;
 	private int state = 1;
+	private Color color;
 //
 	
 	public Block(double x, double y) {
@@ -18,6 +20,11 @@ public class Block {
 		this.y = y;
 	}
 	
+	public Block(double x, double y, Color color) {
+		this.x = x;
+		this.y = y;
+		this.color = color;
+	}
 	
 
 	public double getX() {
@@ -57,12 +64,21 @@ public class Block {
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
 		if (state == 1) { //rotate right
-			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
-			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
-			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
+			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY(), this.color));
+			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY(), this.color));
+			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY(), this.color));
 		}
 
-	}		
+	}
+	
+	public Color getColor() {
+		return this.color;
+	}
+
+	public void setColor(Color c) {
+		this.color = c;
+		
+	}
 	}
 	
 	

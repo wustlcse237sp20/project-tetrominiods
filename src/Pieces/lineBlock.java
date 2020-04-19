@@ -34,16 +34,16 @@ public class lineBlock implements Tetromino {
 	
 	public void initializeBlock() {
 		//Make bottom block
-		this.blocks.add(new Block(this.center.getX(), this.center.getY()));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY(), getColor()));
 		
 		//Make 2nd from bottom
-		this.blocks.add(new Block(this.center.getX(), this.center.getY() + radius));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() + radius, getColor()));
 		
 		//Make 3rd from bottom
-		this.blocks.add(new Block(this.center.getX(), this.center.getY() + (2 * radius)));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() + (2 * radius), getColor()));
 		
 		///Make Top Block
-		this.blocks.add(new Block(this.center.getX(), this.center.getY() + (3 * radius)));
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() + (3 * radius), getColor()));
 	}
 
 	@Override
@@ -81,14 +81,15 @@ public class lineBlock implements Tetromino {
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
 		if (state %2 == 1) { //rotate right
-			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
-			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
-			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
+			
+			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY(), getColor()));
+			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY(), getColor()));
+			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY(), getColor()));
 		}
 		else{
-			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()+1));
-			blocks.set(2, new Block (firstBlock.getX(), firstBlock.getY()+2));
-			blocks.set(3, new Block (firstBlock.getX(), firstBlock.getY()+3));
+			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()+1, getColor()));
+			blocks.set(2, new Block (firstBlock.getX(), firstBlock.getY()+2, getColor()));
+			blocks.set(3, new Block (firstBlock.getX(), firstBlock.getY()+3, getColor()));
 		}
 		state++;
 		
@@ -103,7 +104,7 @@ public class lineBlock implements Tetromino {
 		
 	}
 	public void moveToXPos(Block b) {
-		while (blocks.get(0).getX() > b.getX()) {
+		while (blocks.get(0).getX() > b.getX()+1) {
 			moveLeft();
 		}
 		
@@ -117,7 +118,7 @@ public class lineBlock implements Tetromino {
 			moveDown();
 		}
 		
-		while (blocks.get(0).getY() < b.getY()) {
+		while (blocks.get(0).getY() < b.getY()-2) {
 			moveUp();
 		}
 	}
