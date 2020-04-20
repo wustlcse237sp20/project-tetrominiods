@@ -349,6 +349,7 @@ public class tetrisGame {
 			}
 
 		}
+		return nextBlock;
 	}
 	
 	
