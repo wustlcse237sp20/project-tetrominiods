@@ -5,6 +5,9 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,6 +27,7 @@ import sedgewick.StdDraw;
 public class tetrisGame {
 	
 	public static Tetromino currentBlock = createNewPlayerBlock();
+	public static Tetromino nextBlock = createNewPlayerBlock();
 	
 	public static ArrayList<Block> allBlocks = new ArrayList<>();
 	public static Tetromino holdBlock;
@@ -150,6 +154,7 @@ public class tetrisGame {
 		drawPreview();
 		new gameBoard().drawBoard();
 		drawGameBlocks();
+		drawUIBlock2(nextBlock);
 		
 		if (holdBlock != null) {
 			drawUIBlock(holdBlock);
@@ -217,6 +222,13 @@ public class tetrisGame {
 			StdDraw.square(block.getX() + .1, block.getY() - 0.3, t.getRadius()/2);
 		}
 		
+	}
+	
+	public static void drawUIBlock2(Tetromino t) {
+		StdDraw.setPenColor(t.getColor());
+		for (Block block: t.getBlocks()) {
+			StdDraw.square(block.getX() + 11, block.getY() - 0.3, t.getRadius()/2);
+	}
 	}
 
 	private static void drawPreview() {
@@ -306,6 +318,41 @@ public class tetrisGame {
 	
 		
 	}
+	
+	public static Tetromino createNextBlock() {
+		// Create an array 0 to 7 to correspond to the blocks
+		Integer[] random = new Integer[]{0,1,2,3,4,5,6,7};
+		// Shuffle the elements in the array
+		List<Integer> queue = Arrays.asList(random); 
+		Collections.shuffle(queue);
+		for(int i = 0; i < queue.size(); i++) { //change to while loop?
+			if (queue.get(i) == 0) {
+			 return new cubeBlock(new Block(10,13),1); 
+			}
+			else if (queue.get(i) == 1) {
+				 return new lineBlock(new Block(10,13),1); 
+				}
+			else if (queue.get(i) == 2) {
+				 return new jBlock(new Block(10,13),1); 
+				}
+			else if (queue.get(i) == 3) {
+				 return new lBlock(new Block(10,13),1); 
+				}
+			else if (queue.get(i) == 4) {
+				 return new sBlock(new Block(10,13),1); 
+				}
+			else if (queue.get(i) == 5) {
+				 return new tBlock(new Block(10,13),1); 
+				}
+			else {
+				return new zBlock(new Block(10, 13),1);
+			}
+
+		}
+	}
+	
+	
+	
 	
 	
 	private static void drawTetromino(Tetromino t) {
@@ -431,11 +478,6 @@ public class tetrisGame {
                     return false;
                 }
             }
-
-	
-
-		
-
 
 
 			private boolean canMoveLeft() {

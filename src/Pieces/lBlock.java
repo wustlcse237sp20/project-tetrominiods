@@ -79,13 +79,13 @@ public class lBlock implements Tetromino {
 	
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
-		if (state %2 ==  1) { //rotate right
+		if (state %3 ==  1) { //rotate right
 			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()+ 1, getColor()));
 			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY() + 1, getColor()));
 			blocks.set(3, new Block (firstBlock.getX() + 1, firstBlock.getY() + 1, getColor()));
 		}
 		
-		if (state%2 ==0) {
+		if (state%3 == 2) {
 			blocks.set(1, new Block (firstBlock.getX()-1, firstBlock.getY(), getColor()));
 			blocks.set(2, new Block (firstBlock.getX()-1, firstBlock.getY() + 2, getColor()));
 			blocks.set(3, new Block (firstBlock.getX()-1, firstBlock.getY() + 1, getColor()));
