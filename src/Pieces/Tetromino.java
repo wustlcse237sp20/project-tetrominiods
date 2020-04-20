@@ -25,6 +25,7 @@ public interface Tetromino {
 	public Color getColor();
 	
 	public void rotate();
+<<<<<<< HEAD
 	
 	//fix this:
 	public void moveToHoldPosition(Block b);
@@ -33,4 +34,6 @@ public interface Tetromino {
 	
 	public void moveToYPos(Block b) ;
 	
+=======
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 }

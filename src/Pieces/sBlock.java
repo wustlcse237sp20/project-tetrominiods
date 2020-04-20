@@ -34,6 +34,7 @@ public class sBlock implements Tetromino {
 	
 	public void initializeBlock() {
 		//Bottom Left
+<<<<<<< HEAD
 		this.blocks.add(new Block(this.center.getX() - radius, this.center.getY() - radius, getColor()));
 		
 		//Bottom Center
@@ -44,6 +45,18 @@ public class sBlock implements Tetromino {
 		
 		///Top Right
 		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY(), getColor()));
+=======
+		this.blocks.add(new Block(this.center.getX() - radius, this.center.getY() - radius));
+		
+		//Bottom Center
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() - radius));
+		
+		//Top Center
+		this.blocks.add(new Block(this.center.getX(), this.center.getY()));
+		
+		///Top Right
+		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY()));
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 				
 	}
 	
@@ -77,6 +90,7 @@ public class sBlock implements Tetromino {
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
 		if (state %2 == 1) { //rotate right
+<<<<<<< HEAD
 			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1, getColor()));
 			blocks.set(2, new Block (firstBlock.getX()+1, firstBlock.getY()-1, getColor()));
 			blocks.set(3, new Block (firstBlock.getX()+1, firstBlock.getY()-2, getColor()));
@@ -86,10 +100,22 @@ public class sBlock implements Tetromino {
 			blocks.set(1, new Block (firstBlock.getX()+1, firstBlock.getY(), getColor()));
 			blocks.set(2, new Block (firstBlock.getX()+1, firstBlock.getY()+1, getColor()));
 			blocks.set(3, new Block (firstBlock.getX()+2, firstBlock.getY()+1, getColor()));
+=======
+			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1));
+			blocks.set(2, new Block (firstBlock.getX()+1, firstBlock.getY()-1));
+			blocks.set(3, new Block (firstBlock.getX()+1, firstBlock.getY()-2));
+			
+		}
+		else{
+			blocks.set(1, new Block (firstBlock.getX()+1, firstBlock.getY()));
+			blocks.set(2, new Block (firstBlock.getX()+1, firstBlock.getY()+1));
+			blocks.set(3, new Block (firstBlock.getX()+2, firstBlock.getY()+1));
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 		}
 		state++;
 		
 }
+<<<<<<< HEAD
 	
 	public void moveToHoldPosition(Block b) {
 		moveToXPos(b);
@@ -115,4 +141,6 @@ public class sBlock implements Tetromino {
 			moveUp();
 		}
 	}
+=======
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 }

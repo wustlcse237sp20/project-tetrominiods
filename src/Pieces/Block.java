@@ -1,6 +1,9 @@
 package Pieces;
 
+<<<<<<< HEAD
 import java.awt.Color;
+=======
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 import java.util.ArrayList;
 
 public class Block {
@@ -12,7 +15,10 @@ public class Block {
 	private Block center;
 	private double radius;
 	private int state = 1;
+<<<<<<< HEAD
 	private Color color;
+=======
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 //
 	
 	public Block(double x, double y) {
@@ -20,11 +26,14 @@ public class Block {
 		this.y = y;
 	}
 	
+<<<<<<< HEAD
 	public Block(double x, double y, Color color) {
 		this.x = x;
 		this.y = y;
 		this.color = color;
 	}
+=======
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 	
 
 	public double getX() {
@@ -64,6 +73,7 @@ public class Block {
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
 		if (state == 1) { //rotate right
+<<<<<<< HEAD
 			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY(), this.color));
 			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY(), this.color));
 			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY(), this.color));
@@ -79,6 +89,14 @@ public class Block {
 		this.color = c;
 		
 	}
+=======
+			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
+			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
+			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
+		}
+
+	}		
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 	}
 	
 	
