@@ -10,6 +10,7 @@ What user stories were completed this iteration?
 		Fixed 4way rotation issues
 		
 What user stories do you intend to complete next iteration?
+		Keeping Scores
 		Animated Background for title screen
 		Add game instructions to the board
 		Have filled blocks
