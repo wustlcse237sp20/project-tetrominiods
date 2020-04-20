@@ -34,18 +34,32 @@ public class tBlock implements Tetromino {
 	
 	public void initializeBlock() {
 		//Bottom Center
+<<<<<<< HEAD
 				this.blocks.add(new Block(this.center.getX(), this.center.getY() - radius, getColor()));
 				
 		//Bottom Left
 		this.blocks.add(new Block(this.center.getX() - radius, this.center.getY() - radius, getColor()));
+=======
+				this.blocks.add(new Block(this.center.getX(), this.center.getY() - radius));
+				
+		//Bottom Left
+		this.blocks.add(new Block(this.center.getX() - radius, this.center.getY() - radius));
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 		
 		
 		
 		//Top Center
+<<<<<<< HEAD
 		this.blocks.add(new Block(this.center.getX(), this.center.getY(), getColor()));
 		
 		///Bottom Right
 		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() - radius, getColor()));
+=======
+		this.blocks.add(new Block(this.center.getX(), this.center.getY()));
+		
+		///Bottom Right
+		this.blocks.add(new Block(this.center.getX() + radius, this.center.getY() - radius));
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 				
 	}
 	
@@ -76,6 +90,7 @@ public class tBlock implements Tetromino {
 	public Color getColor() {
 		return StdDraw.MAGENTA; //needs to be changed to purple
 	}
+<<<<<<< HEAD
 	
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
@@ -130,4 +145,23 @@ public class tBlock implements Tetromino {
 			moveUp();
 		}
 	}
+=======
+	public void rotate() {
+		Block firstBlock = blocks.get(0);
+		if (state %2 == 1) { //rotate right
+			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1));
+		}
+		
+		if (state %2 == 0) { //rotate right
+				blocks.set(1, new Block (firstBlock.getX() - 1, firstBlock.getY()));
+		}
+		
+		state++;
+	
+
+				
+		
+		
+}
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 }

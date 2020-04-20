@@ -34,6 +34,7 @@ public class lineBlock implements Tetromino {
 	
 	public void initializeBlock() {
 		//Make bottom block
+<<<<<<< HEAD
 		this.blocks.add(new Block(this.center.getX(), this.center.getY(), getColor()));
 		
 		//Make 2nd from bottom
@@ -44,6 +45,18 @@ public class lineBlock implements Tetromino {
 		
 		///Make Top Block
 		this.blocks.add(new Block(this.center.getX(), this.center.getY() + (3 * radius), getColor()));
+=======
+		this.blocks.add(new Block(this.center.getX(), this.center.getY()));
+		
+		//Make 2nd from bottom
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() + radius));
+		
+		//Make 3rd from bottom
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() + (2 * radius)));
+		
+		///Make Top Block
+		this.blocks.add(new Block(this.center.getX(), this.center.getY() + (3 * radius)));
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 	}
 
 	@Override
@@ -81,6 +94,7 @@ public class lineBlock implements Tetromino {
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
 		if (state %2 == 1) { //rotate right
+<<<<<<< HEAD
 			
 			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY(), getColor()));
 			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY(), getColor()));
@@ -90,6 +104,16 @@ public class lineBlock implements Tetromino {
 			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()+1, getColor()));
 			blocks.set(2, new Block (firstBlock.getX(), firstBlock.getY()+2, getColor()));
 			blocks.set(3, new Block (firstBlock.getX(), firstBlock.getY()+3, getColor()));
+=======
+			blocks.set(1, new Block (firstBlock.getX() + 1, firstBlock.getY()));
+			blocks.set(2, new Block (firstBlock.getX() + 2, firstBlock.getY()));
+			blocks.set(3, new Block (firstBlock.getX() + 3, firstBlock.getY()));
+		}
+		else{
+			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()+1));
+			blocks.set(2, new Block (firstBlock.getX(), firstBlock.getY()+2));
+			blocks.set(3, new Block (firstBlock.getX(), firstBlock.getY()+3));
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 		}
 		state++;
 		
@@ -97,6 +121,7 @@ public class lineBlock implements Tetromino {
 			
 
 	}
+<<<<<<< HEAD
 	
 	public void moveToHoldPosition(Block b) {
 		moveToXPos(b);
@@ -122,4 +147,6 @@ public class lineBlock implements Tetromino {
 			moveUp();
 		}
 	}
+=======
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 }

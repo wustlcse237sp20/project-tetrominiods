@@ -1,17 +1,25 @@
 package finalProject;
 
+<<<<<<< HEAD
 import java.awt.Font;
 
 import sedgewick.StdDraw;
 
 public class gameBoard {
 
+=======
+import sedgewick.StdDraw;
+
+public class gameBoard {
+//
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 	public void setup() {
 		//Necessary for drawing board and setting scales
 		StdDraw.setCanvasSize(850,850);
 		StdDraw.setScale(-1, 20);
 	}
 	
+<<<<<<< HEAD
 	public void startScreen() {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.rectangle(10, 10, 5, 10);
@@ -25,6 +33,12 @@ public class gameBoard {
 	
 	public void drawBoard() {
 		
+=======
+	
+	public void drawBoard() {
+		
+		
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 		StdDraw.setPenColor(StdDraw.BLACK);
 		//Main Square
 		StdDraw.rectangle(10, 10, 5, 10);
@@ -34,6 +48,7 @@ public class gameBoard {
 		
 		//Next Block Square
 		StdDraw.rectangle(16.5, 15, 1.5, 5);
+<<<<<<< HEAD
 		Font subtitle = new Font("Arial",Font.CENTER_BASELINE,30);
 		StdDraw.setFont(subtitle);
 		StdDraw.text(16.5, 5, "Pause"); 
@@ -70,6 +85,13 @@ public class gameBoard {
 
 	public void printLosingScreen() { 
 		// TODO: add play again button
+=======
+	}
+
+
+	public void printLosingScreen() {
+		// TODO Auto-generated method stub
+>>>>>>> ce0d70072d78214bd4bef10bc8c9bf109243c276
 		StdDraw.setPenColor(StdDraw.GRAY);
 		//Main Square
 		StdDraw.filledRectangle(10, 10, 30, 30);
