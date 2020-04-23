@@ -320,6 +320,8 @@ public class tetrisGame {
 	}
 	
 	public static Tetromino createNextBlock() {
+		
+//		 return new jBlock(new Block(10,13),1); 
 		// Create an array 0 to 7 to correspond to the blocks
 		Integer[] random = new Integer[]{0,1,2,3,4,5,6,7};
 		// Shuffle the elements in the array
