@@ -39,7 +39,7 @@ public class tetrisGame {
 		startMenu();
 		board.drawBoard();
 		setupKeyboard();
-		timer.schedule(new timedBlockMovement(), 0, 700);
+		timer.schedule(new timedBlockMovement(), 0, 1000);
 	}
 
 	private static void addBlock(Tetromino t) {
@@ -270,6 +270,21 @@ public class tetrisGame {
 		if (checkForGameLoss()) {
 			endGame();
 		}
+		
+		adjustGameSpeed();
+	}
+
+	private static void adjustGameSpeed() {
+		timer.cancel();
+		timer = new Timer();
+		timer.schedule(new timedBlockMovement(), 0, 1000 - (board.getScore() / 10));
+		redrawGame();
+		StdDraw.show(1);
+		//Score     Time
+		//500   -   900
+		//1000  - 
+		//2000
+		//3000
 	}
 
 	private static void endGame() {
