@@ -5,7 +5,14 @@ import java.awt.Font;
 import sedgewick.StdDraw;
 
 public class gameBoard {
+	
+	private int score;
+	
+	public gameBoard() {
+		this.score = 0;
+	}
 
+	
 	public void setup() {
 		//Necessary for drawing board and setting scales
 		StdDraw.setCanvasSize(850,850);
@@ -37,6 +44,12 @@ public class gameBoard {
 		Font subtitle = new Font("Arial",Font.CENTER_BASELINE,30);
 		StdDraw.setFont(subtitle);
 		StdDraw.text(16.5, 5, "Pause"); 
+		
+		//Score and Number
+		StdDraw.setFont(new Font("Arial",Font.CENTER_BASELINE,25));
+		StdDraw.text(16.5 , 9.2, "Score");
+		StdDraw.text(16.5 , 8.9, "----------");
+		StdDraw.text(16.5, 8.2, String.valueOf(this.score));
 	}
 
 	public void pauseScreen() {
@@ -80,4 +93,15 @@ public class gameBoard {
 		StdDraw.pause(4000);
 	}
 
+	public int getScore() {
+		return this.score;
+	}
+	
+	public void setScore(int val) {
+		this.score = val;
+	}
+	
+	public void addToScore(int val) {
+		this.score += val;
+	}
 }
