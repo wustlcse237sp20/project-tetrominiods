@@ -32,6 +32,26 @@ public class gameBoard {
 		//Hold Block Square
 		StdDraw.rectangle(3, 18, 2, 2);
 		
+		//Instructions and Controls
+		StdDraw.rectangle(1.45, 8, 3, 4);
+		Font title = new Font("Arial",Font.CENTER_BASELINE,25);
+		StdDraw.setFont(title);
+		StdDraw.text(1.45, 11.3, "Instructions");
+		Font instructions = new Font("Arial",Font.CENTER_BASELINE,13);
+		StdDraw.setFont(instructions);
+		StdDraw.text(1.45, 10.55, "Move the pieces to the bottom.");
+		StdDraw.text(1.45, 9.95, "When a line is full it is cleared.");
+		StdDraw.text(1.45, 9.35, "Reach the top & the game is over.");
+		StdDraw.setFont(title);
+		StdDraw.text(1.45, 8.05, "Controls");
+		Font controls = new Font("Arial",Font.CENTER_BASELINE,15);
+		StdDraw.setFont(controls);
+		StdDraw.text(1.45, 7.25, "Move: Left/Right Arrow Keys");
+		StdDraw.text(1.45, 6.5, "Fast Drop: Up Arrow Key");
+		StdDraw.text(1.45, 5.75, "Rotate: Space Bar");
+		StdDraw.text(1.45, 5, "Hold/Replace a Block: Z");
+
+		
 		//Next Block Square
 		StdDraw.rectangle(16.5, 15, 1.5, 5);
 		Font subtitle = new Font("Arial",Font.CENTER_BASELINE,30);
