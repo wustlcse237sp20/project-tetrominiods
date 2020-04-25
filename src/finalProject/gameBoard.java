@@ -30,7 +30,7 @@ public class gameBoard {
 		StdDraw.rectangle(10, 10, 5, 10);
 		
 		//Hold Block Square
-		StdDraw.rectangle(3, 18, 2, 2);
+		StdDraw.rectangle(2.5, 18, 2.5, 3);
 		
 		//Instructions and Controls
 		StdDraw.rectangle(1.45, 8, 3, 4);

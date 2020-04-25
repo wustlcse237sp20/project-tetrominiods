@@ -132,7 +132,7 @@ public class lBlock implements Tetromino {
 			moveDown();
 		}
 		
-		while (blocks.get(0).getY() < b.getY()-1) {
+		while (blocks.get(0).getY() < b.getY()-2) {
 			moveUp();
 		}
 	}
