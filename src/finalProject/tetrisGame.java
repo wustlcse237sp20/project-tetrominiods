@@ -34,6 +34,7 @@ public class tetrisGame {
 	public static Block [][] gameBoard = new Block[25][10];
 	public static Timer timer = timer = new Timer();
 	public static gameBoard board = new gameBoard();
+	public static int prevScore = 1000;
 	public static void main(String [] args) {
 		board.setup();
 		startMenu();
@@ -275,11 +276,17 @@ public class tetrisGame {
 	}
 
 	private static void adjustGameSpeed() {
-		timer.cancel();
-		timer = new Timer();
-		timer.schedule(new timedBlockMovement(), 0, 1000 - (board.getScore() / 10));
-		redrawGame();
-		StdDraw.show(1);
+		if (board.getScore() > prevScore) {
+			timer.cancel();
+			timer = new Timer();
+			timer.schedule(new timedBlockMovement(), 0, 1000 - (board.getScore() / 8));
+			redrawGame();
+			StdDraw.show(1);
+			prevScore += 1000;
+		}
+		
+		
+		
 		//Score     Time
 		//500   -   900
 		//1000  - 
