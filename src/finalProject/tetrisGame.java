@@ -33,13 +33,14 @@ public class tetrisGame {
 	public static Tetromino holdBlock;
 	public static Block [][] gameBoard = new Block[25][10];
 	public static Timer timer = timer = new Timer();
-	
+	public static gameBoard board = new gameBoard();
+	public static int prevScore = 1000;
 	public static void main(String [] args) {
-		new gameBoard().setup();
+		board.setup();
 		startMenu();
-		new gameBoard().drawBoard();
+		board.drawBoard();
 		setupKeyboard();
-		timer.schedule(new timedBlockMovement(), 0, 700);
+		timer.schedule(new timedBlockMovement(), 0, 1000);
 	}
 
 	private static void addBlock(Tetromino t) {
@@ -50,7 +51,7 @@ public class tetrisGame {
 	}
 	
 	public static void startMenu() {
-		new gameBoard().startScreen();
+		board.startScreen();
 		boolean mouseClick = false;
 		while(mouseClick == false) {
 			if (StdDraw.mousePressed()) {
@@ -68,7 +69,7 @@ public class tetrisGame {
 	
 	public static void pauseMenu() {
 		System.out.println("paused");
-		new gameBoard().pauseScreen();
+		board.pauseScreen();
 		boolean mouseClick = false;
 		while(mouseClick == false) {
 			if (StdDraw.mousePressed()) {
@@ -87,7 +88,7 @@ public class tetrisGame {
 				//If "quit game" button is clicked
 				else if(((x >= 9.5) && (x <=10.5)) && ((y >=8.5)&&(y<=9.5))){ //if the click is on the play button
 					mouseClick = true;
-					new gameBoard().printLosingScreen();
+					board.printLosingScreen();
 					timer.cancel();
 					System. exit(0);
 				}
@@ -100,7 +101,7 @@ public class tetrisGame {
 	}
 	
 	public static void resumeScreen() {
-		new gameBoard().resumeScreen();
+		board.resumeScreen();
 	}
 
 	private static void setAsObstacle(Tetromino b) {
@@ -152,7 +153,7 @@ public class tetrisGame {
 	private static void redrawGame() {
 		drawTetromino(currentBlock);
 		drawPreview();
-		new gameBoard().drawBoard();
+		board.drawBoard();
 		drawGameBlocks();
 		drawUIBlock2(nextBlock);
 		
@@ -167,6 +168,7 @@ public class tetrisGame {
 	}
 	
 	private static void checkForLineClear() {
+		int linesCleared = 0;
 		for (int i =0; i < gameBoard.length; i++) {
 			int count=0;
 			for (int j = 0; j < gameBoard[0].length; j++) {
@@ -177,10 +179,10 @@ public class tetrisGame {
 			if (count >= 10) {
 				moveRowsDownFromPos(i);
 				i--;  //decrements because we just removed a row
+				linesCleared++;
 			}
 		}
-		
-		
+		board.addToScore(linesCleared == 4 ? 600 : linesCleared * 100 );
 	}
 
 	private static void moveRowsDownFromPos(int startPos) {
@@ -265,14 +267,35 @@ public class tetrisGame {
 		setAsObstacle(currentBlock);
 		addBlock(currentBlock);
 		currentBlock = createNewPlayerBlock();
-
+		board.addToScore(40);
 		if (checkForGameLoss()) {
 			endGame();
 		}
+		
+		adjustGameSpeed();
+	}
+
+	private static void adjustGameSpeed() {
+		if (board.getScore() > prevScore) {
+			timer.cancel();
+			timer = new Timer();
+			timer.schedule(new timedBlockMovement(), 0, 1000 - (board.getScore() / 8));
+			redrawGame();
+			StdDraw.show(1);
+			prevScore += 1000;
+		}
+		
+		
+		
+		//Score     Time
+		//500   -   900
+		//1000  - 
+		//2000
+		//3000
 	}
 
 	private static void endGame() {
-		new gameBoard().printLosingScreen();
+		board.printLosingScreen();
 		timer.cancel();
 		System. exit(0);
 	}
