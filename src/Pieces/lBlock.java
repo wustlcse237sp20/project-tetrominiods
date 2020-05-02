@@ -74,7 +74,7 @@ public class lBlock implements Tetromino {
 	}
 	
 	public Color getColor() {
-		return StdDraw.ORANGE;
+		return new Color(250,174,32);
 	}
 	
 	public void rotate() {

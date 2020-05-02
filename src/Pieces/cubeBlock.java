@@ -72,7 +72,7 @@ public class cubeBlock implements Tetromino {
 	}
 	
 	public Color getColor() {
-		return StdDraw.PINK;
+		return new Color(255,249,74);
 	}
 	public void rotate() {
 		//Does nothing because its a square

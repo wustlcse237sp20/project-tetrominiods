@@ -73,7 +73,7 @@ public class jBlock implements Tetromino {
 	
 	
 	public Color getColor() {
-		return StdDraw.BLUE;
+		return new Color(9,20,232);
 	}
 	
 	public void rotate() {
