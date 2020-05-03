@@ -27,9 +27,10 @@ import sedgewick.StdDraw;
 public class tetrisGame {
 	
 	public static Tetromino currentBlock = createNewPlayerBlock();
-	public static Tetromino nextBlock = createNewPlayerBlock();
+	public static Tetromino nextBlock = createNextBlock();
 	
 	public static ArrayList<Block> allBlocks = new ArrayList<>();
+
 	public static Tetromino holdBlock;
 	public static Block [][] gameBoard = new Block[25][10];
 	public static Timer timer = timer = new Timer();
@@ -159,8 +160,6 @@ public class tetrisGame {
 		}
 		redrawGame();
 		StdDraw.show(20);
-		
-		
 	}
 
 	private static void redrawGame() {
@@ -177,6 +176,7 @@ public class tetrisGame {
 
 	private static void startNextTurn() {
 		moveToNextPiece();
+		moveToNextPieceQueue();
 		checkForLineClear();
 	}
 	
@@ -322,6 +322,7 @@ public class tetrisGame {
 	}
 
 	public static Tetromino createNewPlayerBlock() {
+		
 		int randIndex = (int)(Math.random() * 7);//gets a random number corresponding to block 
 		
 		if (randIndex == 0) {
@@ -351,49 +352,47 @@ public class tetrisGame {
 		else{
 			return new zBlock(new Block(5.5,17.5),1);
 		}
-		
-	
-		
-	}
+}
 	
 	public static Tetromino createNextBlock() {
-		
-//		 return new jBlock(new Block(10,13),1); 
-		// Create an array 0 to 7 to correspond to the blocks
-		Integer[] random = new Integer[]{0,1,2,3,4,5,6,7};
-		// Shuffle the elements in the array
-		List<Integer> queue = Arrays.asList(random); 
-		Collections.shuffle(queue);
-		for(int i = 0; i < queue.size(); i++) { //change to while loop?
-			if (queue.get(i) == 0) {
-			 return new cubeBlock(new Block(10,13),1); 
+	int randIndex = (int)(Math.random() * 7);//gets a random number corresponding to block 
+
+			if (randIndex == 0) {
+			 return new cubeBlock(new Block(5.5,13),1);  
 			}
-			else if (queue.get(i) == 1) {
-				 return new lineBlock(new Block(10,13),1); 
+			else if (randIndex == 1) {
+				 return new lineBlock(new Block(5.5,13),1); 
 				}
-			else if (queue.get(i) == 2) {
-				 return new jBlock(new Block(10,13),1); 
+			else if (randIndex == 2) {
+				 return new jBlock(new Block(5.5,13),1); 
 				}
-			else if (queue.get(i) == 3) {
-				 return new lBlock(new Block(10,13),1); 
+			else if (randIndex == 3) {
+				 return new lBlock(new Block(5.5,13),1); 
 				}
-			else if (queue.get(i) == 4) {
-				 return new sBlock(new Block(10,13),1); 
+			else if (randIndex == 4) {
+				 return new sBlock(new Block(5.5,13),1); 
 				}
-			else if (queue.get(i) == 5) {
-				 return new tBlock(new Block(10,13),1); 
+			else if (randIndex == 5) {
+				 return new tBlock(new Block(5.5,13),1); 
 				}
 			else {
-				return new zBlock(new Block(10, 13),1);
+				return new zBlock(new Block(5.5, 13),1);
 			}
 
 		}
-		return nextBlock;
+	
+	public static void moveToNextPieceQueue() {
+	//	currentBlock.moveUp();
+		changeBlocksToColor(StdDraw.WHITE, nextBlock);
+		nextBlock.moveRight();
+		nextBlock.moveDown();
+		nextBlock = createNextBlock();
+		drawUIBlock2(nextBlock);
+	//	board.addToScore(40);
+		if (checkForGameLoss()) {
+			endGame();
+		}
 	}
-	
-	
-	
-	
 	
 	private static void drawTetromino(Tetromino t) {
 		for (Block b: t.getBlocks()) {
@@ -401,9 +400,6 @@ public class tetrisGame {
 		}
 	}
 	
-	
-
-
 	/**
 	 * Draws all Tetromino Pieces in the game
 	 */
@@ -434,97 +430,95 @@ public class tetrisGame {
 	}
 	
 	
-	private static void fastDrop() {
+	static void fastDrop() {
 		// TODO Auto-generated method stub
 		while(!collision()) {
 			currentBlock.moveDown();
 		}
 	}
-
 	/**
 	 * Initializes button presses on keyBoard 
 	 * Found Here: https://stackoverflow.com/questions/27967575/trouble-with-key-pressings-in-java
 	 */
-	
-	private static void setupKeyboard() {
+	protected static void setupKeyboard() {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @SuppressWarnings("unlikely-arg-type")
+	        @SuppressWarnings("unlikely-arg-type")
 			@Override
-            public boolean dispatchKeyEvent(KeyEvent ke) {
-                synchronized (tetrisGame.class) {
-                    switch (ke.getID()) {
-                    case KeyEvent.KEY_PRESSED:
-                    	
-                        if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
-                        	if (canMoveLeft()) {
+	        public boolean dispatchKeyEvent(KeyEvent ke) {
+	            synchronized (tetrisGame.class) {
+	                switch (ke.getID()) {
+	                case KeyEvent.KEY_PRESSED:
+	                	
+	                    if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
+	                    	if (canMoveLeft()) {
 	                        	currentBlock.moveLeft();
 	                        	if (collision()) {
 	                        		currentBlock.moveRight();
 	                        	}
 	                        	advanceGame();
-                        	}
-                        }
-                        if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        	if (canMoveRight()) {
+	                    	}
+	                    }
+	                    if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
+	                    	if (canMoveRight()) {
 	                        	currentBlock.moveRight();
 	                        	if (collision()) {
 	                        		currentBlock.moveLeft();
 	                        	}
 	                        	advanceGame();
-                        	}
-                         }
-                        
-         
-                  	  if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
-                      	currentBlock.rotate();
-                      	while(collision()) {
-                      		currentBlock.moveLeft();
-                      	}
-                      	advanceGame();
-                  	  }
-                   
-                  	if (ke.getKeyCode() == KeyEvent.VK_UP) {
-                    	fastDrop();
-                    	advanceGame();
-                     }
-                  	
-                  	if (ke.getKeyCode() == KeyEvent.VK_Z) {
-                  		if (holdBlock == null) {
-                  			allBlocks.remove(currentBlock);
+	                    	}
+	                     }
+	                    
+	     
+	              	  if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
+	                  	currentBlock.rotate();
+	                  	while(collision()) {
+	                  		currentBlock.moveLeft();
+	                  	}
+	                  	advanceGame();
+	              	  }
+	               
+	              	if (ke.getKeyCode() == KeyEvent.VK_UP) {
+	                	fastDrop();
+	                	advanceGame();
+	                 }
+	              	
+	              	if (ke.getKeyCode() == KeyEvent.VK_Z) {
+	              		if (holdBlock == null) {
+	              			allBlocks.remove(currentBlock);
 	                    	holdBlock = currentBlock;
 	                    	holdBlock.moveToHoldPosition(new Block(1.5,18));
 	                    	allBlocks.remove(holdBlock);
 	                    	currentBlock = createNewPlayerBlock();
-                  		}
-                  		else {
-                  			Tetromino temp = holdBlock;
-                  			holdBlock = currentBlock;
-                  			holdBlock.moveToHoldPosition(new Block(1.5,18));
-                  			allBlocks.remove(holdBlock);
-                  			currentBlock = temp;
-                  		}
-                     }
-                       
-            
-                    }
-                   
-                    //
-                    switch (ke.getID()) {
-                    case KeyEvent.KEY_RELEASED:
-                    	
-                    	 
-                        if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
-                        	currentBlock.moveDown();
-                        	advanceGame();
-                         }
-                    
-                  
-                    }
-                    return false;
-                }
-            }
-
-
+	              		}
+	              		else {
+	              			Tetromino temp = holdBlock;
+	              			holdBlock = currentBlock;
+	              			holdBlock.moveToHoldPosition(new Block(1.5,18));
+	              			allBlocks.remove(holdBlock);
+	              			currentBlock = temp;
+	              		}
+	                 }
+	                   
+	        
+	                }
+	               
+	                //
+	                switch (ke.getID()) {
+	                case KeyEvent.KEY_RELEASED:
+	                	
+	                	 
+	                    if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
+	                    	currentBlock.moveDown();
+	                    	advanceGame();
+	                     }
+	                
+	              
+	                }
+	                return false;
+	            }
+	        }
+	
+	
 			private boolean canMoveLeft() {
 				boolean ret = true;
 				for (Block b : currentBlock.getBlocks()) {
@@ -544,9 +538,6 @@ public class tetrisGame {
 			}
 		});
 	}
+
 	
 }
-	
-        
-	
-
