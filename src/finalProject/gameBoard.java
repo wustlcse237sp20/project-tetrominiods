@@ -127,6 +127,8 @@ public class gameBoard {
 		StdDraw.text(10, 10, "Game Ended");
 		StdDraw.show(20);
 		StdDraw.pause(4000);
+	}
+	
 	public int getScore() {
 		return this.score;
 	}
