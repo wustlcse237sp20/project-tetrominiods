@@ -72,7 +72,7 @@ public class zBlock implements Tetromino {
 	}
 	
 	public Color getColor() {
-		return StdDraw.RED;
+		return new Color(250,11,2);
 	}
 	public void rotate() {
 		Block firstBlock = blocks.get(0);
@@ -113,7 +113,7 @@ public class zBlock implements Tetromino {
 			moveDown();
 		}
 		
-		while (blocks.get(0).getY() < b.getY()) {
+		while (blocks.get(0).getY() < b.getY()-1) {
 			moveUp();
 		}
 	}

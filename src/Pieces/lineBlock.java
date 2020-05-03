@@ -75,7 +75,7 @@ public class lineBlock implements Tetromino {
 	}
 	
 	public Color getColor() {
-		return StdDraw.CYAN;
+		return new Color(118,245,232);
 	}
 	
 	public void rotate() {
@@ -104,7 +104,7 @@ public class lineBlock implements Tetromino {
 		
 	}
 	public void moveToXPos(Block b) {
-		while (blocks.get(0).getX() > b.getX()+1) {
+		while (blocks.get(0).getX() > b.getX()) {
 			moveLeft();
 		}
 		

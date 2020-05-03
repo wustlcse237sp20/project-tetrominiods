@@ -73,33 +73,40 @@ public class jBlock implements Tetromino {
 	
 	
 	public Color getColor() {
-		return StdDraw.BLUE;
+		return new Color(9,20,232);
 	}
 	
 	public void rotate() {
-		Block firstBlock = blocks.get(0);
-		for (Block b: blocks) {
-			if (state %3 ==  1) { //rotate right
-			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1, getColor()));
-			blocks.set(2, new Block (firstBlock.getX() + 1, firstBlock.getY()-1, getColor()));
-			blocks.set(3, new Block (firstBlock.getX() + 2, firstBlock.getY()-1, getColor()));
-			}
-			
-			if (state %3 == 2) {	
-			blocks.set(1, new Block(firstBlock.getX() + 1,firstBlock .getY(), getColor() ));
-			blocks.set(2, new Block(firstBlock.getX() + 1, firstBlock.getY() +1 , getColor()));
-			blocks.set(3, new Block(firstBlock.getX() + 1, firstBlock.getY() + 2, getColor()));
-			}
-			
-			if (state % 3 == 0) {
-			blocks.set(1, new Block(firstBlock.getX() + 1,firstBlock .getY() , getColor()));
-			blocks.set(2, new Block(firstBlock.getX(), firstBlock.getY() - 2 , getColor()));
-			blocks.set(3, new Block(firstBlock.getX() , firstBlock.getY() - 1, getColor()));
-			}
-	  }
-		state++;
+		Block firstBlock = blocks.get(0); 
+		if (state %4 ==  1) { //rotate right  (shaped like l
+		blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()-1, getColor()));
+		blocks.set(2, new Block (firstBlock.getX() + 1, firstBlock.getY()-1, getColor()));
+		blocks.set(3, new Block (firstBlock.getX() + 2, firstBlock.getY()-1, getColor()));
+		}
 		
-	// needs to be fixed so that it resets/ decrements once state == 3
+		if (state %4 == 2) {	 // shaped like r
+		blocks.set(0, new Block(firstBlock.getX()+ 1 ,firstBlock .getY(), getColor() ));
+		blocks.set(1, new Block(firstBlock.getX() ,firstBlock .getY(), getColor() ));
+		blocks.set(2, new Block(firstBlock.getX() , firstBlock.getY() -1 , getColor()));
+		blocks.set(3, new Block(firstBlock.getX(), firstBlock.getY() - 2, getColor()));
+		}
+		
+		
+		if (state %4 == 3) {	
+			blocks.set(1, new Block(firstBlock.getX(),firstBlock .getY() +1, getColor() ));
+			blocks.set(2, new Block(firstBlock.getX() - 1, firstBlock.getY() +1 , getColor()));
+			blocks.set(3, new Block(firstBlock.getX() -2, firstBlock.getY() + 1, getColor()));
+			}
+		
+		if (state % 4 == 0) {
+		blocks.set(1, new Block(firstBlock.getX() + 1,firstBlock .getY() , getColor()));
+		blocks.set(2, new Block(firstBlock.getX() + 1, firstBlock.getY() + 1 , getColor()));
+		blocks.set(3, new Block(firstBlock.getX() + 1, firstBlock.getY() + 2, getColor()));
+		}
+  
+	state++;
+		
+	
 	}
 	public void moveToHoldPosition(Block b) {
 		moveToXPos(b);
@@ -107,7 +114,7 @@ public class jBlock implements Tetromino {
 		
 	}
 	public void moveToXPos(Block b) {
-		while (blocks.get(0).getX() > b.getX()+1) {
+		while (blocks.get(0).getX() > b.getX()) {
 			moveLeft();
 		}
 		
@@ -121,7 +128,7 @@ public class jBlock implements Tetromino {
 			moveDown();
 		}
 		
-		while (blocks.get(0).getY() < b.getY()-1) {
+		while (blocks.get(0).getY() < b.getY()-2) {
 			moveUp();
 		}
 	}

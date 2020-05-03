@@ -27,6 +27,7 @@ public class gameBoard {
 		StdDraw.setFont(tetrisFont);
 		StdDraw.text(10, 15, "Tetris");
 		StdDraw.setFont(subtitle);
+		StdDraw.rectangle(10, 10, 1.5, 1);
 		StdDraw.text(10, 10, "Play");
 	}
 	
@@ -37,12 +38,33 @@ public class gameBoard {
 		StdDraw.rectangle(10, 10, 5, 10);
 		
 		//Hold Block Square
-		StdDraw.rectangle(3, 18, 2, 2);
+		StdDraw.rectangle(2.5, 18, 2.5, 3);
+		
+		//Instructions and Controls
+		StdDraw.rectangle(1.45, 8, 3, 4);
+		Font title = new Font("Arial",Font.CENTER_BASELINE,25);
+		StdDraw.setFont(title);
+		StdDraw.text(1.45, 11.3, "Instructions");
+		Font instructions = new Font("Arial",Font.CENTER_BASELINE,13);
+		StdDraw.setFont(instructions);
+		StdDraw.text(1.45, 10.55, "Move the pieces to the bottom.");
+		StdDraw.text(1.45, 9.95, "When a line is full it is cleared.");
+		StdDraw.text(1.45, 9.35, "Reach the top & the game is over.");
+		StdDraw.setFont(title);
+		StdDraw.text(1.45, 8.05, "Controls");
+		Font controls = new Font("Arial",Font.CENTER_BASELINE,15);
+		StdDraw.setFont(controls);
+		StdDraw.text(1.45, 7.25, "Move: Left/Right Arrow Keys");
+		StdDraw.text(1.45, 6.5, "Fast Drop: Up Arrow Key");
+		StdDraw.text(1.45, 5.75, "Rotate: Space Bar");
+		StdDraw.text(1.45, 5, "Hold/Replace a Block: Z");
+
 		
 		//Next Block Square
 		StdDraw.rectangle(16.5, 15, 1.5, 5);
 		Font subtitle = new Font("Arial",Font.CENTER_BASELINE,30);
 		StdDraw.setFont(subtitle);
+		StdDraw.rectangle(16.5, 5, 1.35, 1);
 		StdDraw.text(16.5, 5, "Pause"); 
 		
 		//Score and Number
@@ -53,16 +75,16 @@ public class gameBoard {
 	}
 
 	public void pauseScreen() {
-		System.out.println("draw pause");
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.rectangle(10, 10, 5, 10);
 		Font titleFont = new Font("Arial",Font.BOLD,70);
 		Font subtitle = new Font("Arial",Font.CENTER_BASELINE,30);
 		StdDraw.setFont(titleFont);
-		StdDraw.text(10, 15, "Pause");
+		StdDraw.text(10, 15, "Paused");
 		StdDraw.setFont(subtitle);
-		StdDraw.text(10, 13, "Resume");
-		StdDraw.text(10, 11, "Tutorial");
+		StdDraw.rectangle(10, 11, 3, 0.7);
+		StdDraw.text(10, 11, "Resume");
+		StdDraw.rectangle(10, 9, 4, 0.7);
 		StdDraw.text(10, 9, "Quit Game");
 		StdDraw.show();
 	}
@@ -74,6 +96,7 @@ public class gameBoard {
 		Font titleFont = new Font("Arial",Font.BOLD,70);
 		StdDraw.setFont(titleFont);
 		for (int i=3; i>0; i--){
+			StdDraw.rectangle(10, 10, 5, 10);
 			StdDraw.text(10, 13, "" + i);
 			StdDraw.show(300);
 			StdDraw.clear();
@@ -93,6 +116,19 @@ public class gameBoard {
 		StdDraw.pause(4000);
 	}
 
+
+	public void quitScreen() { 
+		// TODO: add play again button
+		StdDraw.setPenColor(StdDraw.GRAY);
+		//Main Square
+		StdDraw.filledRectangle(10, 10, 30, 30);
+		StdDraw.setPenRadius(10);
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.text(10, 10, "Game Ended");
+		StdDraw.show(20);
+		StdDraw.pause(4000);
+	}
+	
 	public int getScore() {
 		return this.score;
 	}
@@ -103,5 +139,6 @@ public class gameBoard {
 	
 	public void addToScore(int val) {
 		this.score += val;
+
 	}
 }
