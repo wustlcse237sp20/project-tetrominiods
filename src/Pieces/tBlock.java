@@ -74,7 +74,7 @@ public class tBlock implements Tetromino {
 	}
 	//
 	public Color getColor() {
-		return StdDraw.MAGENTA; //needs to be changed to purple
+		return new Color(134,2,250); //needs to be changed to purple
 	}
 	
 	public void rotate() {

@@ -59,6 +59,10 @@ public class tetrisGame {
 				double y = StdDraw.mouseY();
 				//If the the start button is clicked, then break out the loop to start the game.
 				if(((x >= 9.5) && (x <=10.5)) && ((y >=9.5)&&(y<=10.5))){ //if the click is on the play button
+					StdDraw.setPenColor(StdDraw.GREEN);
+					StdDraw.text(10, 10, "Play");
+					StdDraw.setPenColor();
+					StdDraw.pause(100);
 					mouseClick = true;
 				}
 				
@@ -68,27 +72,30 @@ public class tetrisGame {
 	}
 	
 	public static void pauseMenu() {
-		System.out.println("paused");
-		board.pauseScreen();
+		new gameBoard().pauseScreen();
 		boolean mouseClick = false;
 		while(mouseClick == false) {
 			if (StdDraw.mousePressed()) {
 				double x = StdDraw.mouseX();
 				double y = StdDraw.mouseY();
 				//If resume button is clicked
-				if(((x >= 9.5) && (x <=10.5)) && ((y >=12.5)&&(y<=13.5))){ //if the click is on the play button
+				if(((x >= 9.0) && (x <=11.0)) && ((y >=10.0)&&(y<=12.0))){ //if the click is on the play button
 					mouseClick = true;
+					StdDraw.setPenColor(StdDraw.GREEN);
+					StdDraw.text(10, 11, "Resume");
+					StdDraw.setPenColor();
+					StdDraw.pause(100);
 					resumeScreen();
 				}
-				//If tutorial button is clicked
-				else if(((x >= 9.5) && (x <=10.5)) && ((y >=10.5)&&(y<=11.5))){ //if the click is on the play button
-					mouseClick = true;
-					//idk if we'll keep this lol
-				}
 				//If "quit game" button is clicked
-				else if(((x >= 9.5) && (x <=10.5)) && ((y >=8.5)&&(y<=9.5))){ //if the click is on the play button
+				else if(((x >= 9.0) && (x <=11.0)) && ((y >=8.0)&&(y<=10.0))){ //if the click is on the play button
 					mouseClick = true;
-					board.printLosingScreen();
+
+					StdDraw.setPenColor(StdDraw.GREEN);
+					StdDraw.text(10, 9, "Quit Game");
+					StdDraw.setPenColor();
+					StdDraw.pause(100);
+					new gameBoard().quitScreen();
 					timer.cancel();
 					System. exit(0);
 				}
@@ -136,7 +143,13 @@ public class tetrisGame {
 		if(StdDraw.mousePressed()) {
 			double x = StdDraw.mouseX();
 			double y = StdDraw.mouseY();
-			if(((x >= 16.0) && (x <=17.0)) && ((y >=4.5)&&(y<=5.5))){ //if the click is on the play button
+			System.out.println(x + " " + y);
+			if(((x >= 15.0) && (x <=18.0)) && ((y >=4.0)&&(y<=6.0))){ //if the click is on the play button
+				StdDraw.setPenColor(StdDraw.GREEN);
+				StdDraw.text(16.5, 5, "Pause"); 
+				StdDraw.setPenColor();
+				StdDraw.pause(200);
+				StdDraw.clear();
 				pauseMenu();
 			}
 		}
@@ -242,7 +255,8 @@ public class tetrisGame {
 		}
 		currentBlock.moveUp();
 		Color saveColor = currentBlock.getColor();
-		changeBlocksToColor(StdDraw.GRAY, currentBlock);
+		Color gray = new Color(202, 207, 204);
+		changeBlocksToColor(gray, currentBlock);
 		drawTetromino(currentBlock);
 		changeBlocksToColor(saveColor, currentBlock);
 		
@@ -411,7 +425,12 @@ public class tetrisGame {
 	 */
 	public static void drawBlocks(Block b) {
 		StdDraw.setPenColor(b.getColor());
-		StdDraw.square(b.getX() + 5, b.getY(), .5);
+		StdDraw.filledSquare(b.getX() + 5, b.getY(), .5);
+		StdDraw.setPenRadius(.003);
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.square(b.getX()+5, b.getY(), .5);
+		StdDraw.setPenRadius();
+
 	}
 	
 	
