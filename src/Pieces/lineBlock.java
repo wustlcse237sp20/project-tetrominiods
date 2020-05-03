@@ -75,7 +75,7 @@ public class lineBlock implements Tetromino {
 	}
 	
 	public Color getColor() {
-		return StdDraw.CYAN;
+		return new Color(118,245,232);
 	}
 	
 	public void rotate() {
