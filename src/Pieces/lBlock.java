@@ -83,14 +83,14 @@ public class lBlock implements Tetromino {
 			blocks.set(1, new Block (firstBlock.getX(), firstBlock.getY()+1, getColor()));
 			blocks.set(2, new Block (firstBlock.getX()  +1, firstBlock.getY()+1, getColor()));
 			blocks.set(3, new Block (firstBlock.getX() + 2, firstBlock.getY()+1, getColor()));
-			System.out.println("1");
+		
 			}
 			
 			if (state %4 == 2) {	 // 
 			blocks.set(1, new Block(firstBlock.getX()+1 ,firstBlock .getY(), getColor() ));
 			blocks.set(2, new Block(firstBlock.getX()+1, firstBlock.getY() -1 , getColor()));
 			blocks.set(3, new Block(firstBlock.getX()+1, firstBlock.getY() - 2, getColor()));
-			System.out.println("2");
+		
 			}
 			
 			
@@ -98,14 +98,14 @@ public class lBlock implements Tetromino {
 				blocks.set(1, new Block(firstBlock.getX(),firstBlock .getY() -1, getColor() ));
 				blocks.set(2, new Block(firstBlock.getX() - 1, firstBlock.getY() -1 , getColor()));
 				blocks.set(3, new Block(firstBlock.getX() -2, firstBlock.getY() - 1, getColor()));
-				System.out.println("3");
+			
 				}
 			
 			if (state % 4 == 0) {
 			blocks.set(1, new Block(firstBlock.getX() - 1,firstBlock .getY() , getColor()));
 			blocks.set(2, new Block(firstBlock.getX() - 1, firstBlock.getY() + 1 , getColor()));
 			blocks.set(3, new Block(firstBlock.getX() - 1, firstBlock.getY() + 2, getColor()));
-			System.out.println("0");
+		
 			}
 		
 		state++;
