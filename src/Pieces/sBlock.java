@@ -72,7 +72,7 @@ public class sBlock implements Tetromino {
 	}
 	
 	public Color getColor() {
-		return StdDraw.GREEN; 
+		return new Color(126,250,2); 
 	}
 	public void rotate() {
 		Block firstBlock = blocks.get(0);

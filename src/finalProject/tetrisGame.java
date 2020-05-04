@@ -27,19 +27,21 @@ import sedgewick.StdDraw;
 public class tetrisGame {
 	
 	public static Tetromino currentBlock = createNewPlayerBlock();
-	public static Tetromino nextBlock = createNewPlayerBlock();
+	public static Tetromino nextBlock = createNextBlock();
 	
 	public static ArrayList<Block> allBlocks = new ArrayList<>();
+
 	public static Tetromino holdBlock;
 	public static Block [][] gameBoard = new Block[25][10];
 	public static Timer timer = timer = new Timer();
-	
+	public static gameBoard board = new gameBoard();
+	public static int prevScore = 1000;
 	public static void main(String [] args) {
-		new gameBoard().setup();
+		board.setup();
 		startMenu();
-		new gameBoard().drawBoard();
+		board.drawBoard();
 		setupKeyboard();
-		timer.schedule(new timedBlockMovement(), 0, 700);
+		timer.schedule(new timedBlockMovement(), 0, 1000);
 	}
 
 	private static void addBlock(Tetromino t) {
@@ -50,7 +52,7 @@ public class tetrisGame {
 	}
 	
 	public static void startMenu() {
-		new gameBoard().startScreen();
+		board.startScreen();
 		boolean mouseClick = false;
 		while(mouseClick == false) {
 			if (StdDraw.mousePressed()) {
@@ -58,6 +60,10 @@ public class tetrisGame {
 				double y = StdDraw.mouseY();
 				//If the the start button is clicked, then break out the loop to start the game.
 				if(((x >= 9.5) && (x <=10.5)) && ((y >=9.5)&&(y<=10.5))){ //if the click is on the play button
+					StdDraw.setPenColor(StdDraw.GREEN);
+					StdDraw.text(10, 10, "Play");
+					StdDraw.setPenColor();
+					StdDraw.pause(100);
 					mouseClick = true;
 				}
 				
@@ -67,7 +73,6 @@ public class tetrisGame {
 	}
 	
 	public static void pauseMenu() {
-		System.out.println("paused");
 		new gameBoard().pauseScreen();
 		boolean mouseClick = false;
 		while(mouseClick == false) {
@@ -75,19 +80,23 @@ public class tetrisGame {
 				double x = StdDraw.mouseX();
 				double y = StdDraw.mouseY();
 				//If resume button is clicked
-				if(((x >= 9.5) && (x <=10.5)) && ((y >=12.5)&&(y<=13.5))){ //if the click is on the play button
+				if(((x >= 9.0) && (x <=11.0)) && ((y >=10.0)&&(y<=12.0))){ //if the click is on the play button
 					mouseClick = true;
+					StdDraw.setPenColor(StdDraw.GREEN);
+					StdDraw.text(10, 11, "Resume");
+					StdDraw.setPenColor();
+					StdDraw.pause(100);
 					resumeScreen();
 				}
-				//If tutorial button is clicked
-				else if(((x >= 9.5) && (x <=10.5)) && ((y >=10.5)&&(y<=11.5))){ //if the click is on the play button
-					mouseClick = true;
-					//idk if we'll keep this lol
-				}
 				//If "quit game" button is clicked
-				else if(((x >= 9.5) && (x <=10.5)) && ((y >=8.5)&&(y<=9.5))){ //if the click is on the play button
+				else if(((x >= 9.0) && (x <=11.0)) && ((y >=8.0)&&(y<=10.0))){ //if the click is on the play button
 					mouseClick = true;
-					new gameBoard().printLosingScreen();
+
+					StdDraw.setPenColor(StdDraw.GREEN);
+					StdDraw.text(10, 9, "Quit Game");
+					StdDraw.setPenColor();
+					StdDraw.pause(100);
+					new gameBoard().quitScreen();
 					timer.cancel();
 					System. exit(0);
 				}
@@ -100,7 +109,7 @@ public class tetrisGame {
 	}
 	
 	public static void resumeScreen() {
-		new gameBoard().resumeScreen();
+		board.resumeScreen();
 	}
 
 	private static void setAsObstacle(Tetromino b) {
@@ -135,7 +144,13 @@ public class tetrisGame {
 		if(StdDraw.mousePressed()) {
 			double x = StdDraw.mouseX();
 			double y = StdDraw.mouseY();
-			if(((x >= 16.0) && (x <=17.0)) && ((y >=4.5)&&(y<=5.5))){ //if the click is on the play button
+			System.out.println(x + " " + y);
+			if(((x >= 15.0) && (x <=18.0)) && ((y >=4.0)&&(y<=6.0))){ //if the click is on the play button
+				StdDraw.setPenColor(StdDraw.GREEN);
+				StdDraw.text(16.5, 5, "Pause"); 
+				StdDraw.setPenColor();
+				StdDraw.pause(200);
+				StdDraw.clear();
 				pauseMenu();
 			}
 		}
@@ -145,14 +160,12 @@ public class tetrisGame {
 		}
 		redrawGame();
 		StdDraw.show(20);
-		
-		
 	}
 
 	private static void redrawGame() {
 		drawTetromino(currentBlock);
 		drawPreview();
-		new gameBoard().drawBoard();
+		board.drawBoard();
 		drawGameBlocks();
 		drawUIBlock2(nextBlock);
 		
@@ -163,10 +176,12 @@ public class tetrisGame {
 
 	private static void startNextTurn() {
 		moveToNextPiece();
+		moveToNextPieceQueue();
 		checkForLineClear();
 	}
 	
 	private static void checkForLineClear() {
+		int linesCleared = 0;
 		for (int i =0; i < gameBoard.length; i++) {
 			int count=0;
 			for (int j = 0; j < gameBoard[0].length; j++) {
@@ -177,10 +192,10 @@ public class tetrisGame {
 			if (count >= 10) {
 				moveRowsDownFromPos(i);
 				i--;  //decrements because we just removed a row
+				linesCleared++;
 			}
 		}
-		
-		
+		board.addToScore(linesCleared == 4 ? 600 : linesCleared * 100 );
 	}
 
 	private static void moveRowsDownFromPos(int startPos) {
@@ -240,7 +255,8 @@ public class tetrisGame {
 		}
 		currentBlock.moveUp();
 		Color saveColor = currentBlock.getColor();
-		changeBlocksToColor(StdDraw.GRAY, currentBlock);
+		Color gray = new Color(202, 207, 204);
+		changeBlocksToColor(gray, currentBlock);
 		drawTetromino(currentBlock);
 		changeBlocksToColor(saveColor, currentBlock);
 		
@@ -265,14 +281,35 @@ public class tetrisGame {
 		setAsObstacle(currentBlock);
 		addBlock(currentBlock);
 		currentBlock = createNewPlayerBlock();
-
+		board.addToScore(40);
 		if (checkForGameLoss()) {
 			endGame();
 		}
+		
+		adjustGameSpeed();
+	}
+
+	private static void adjustGameSpeed() {
+		if (board.getScore() > prevScore) {
+			timer.cancel();
+			timer = new Timer();
+			timer.schedule(new timedBlockMovement(), 0, 1000 - (board.getScore() / 8));
+			redrawGame();
+			StdDraw.show(1);
+			prevScore += 1000;
+		}
+		
+		
+		
+		//Score     Time
+		//500   -   900
+		//1000  - 
+		//2000
+		//3000
 	}
 
 	private static void endGame() {
-		new gameBoard().printLosingScreen();
+		board.printLosingScreen();
 		timer.cancel();
 		System. exit(0);
 	}
@@ -285,6 +322,7 @@ public class tetrisGame {
 	}
 
 	public static Tetromino createNewPlayerBlock() {
+		
 		int randIndex = (int)(Math.random() * 7);//gets a random number corresponding to block 
 		
 		if (randIndex == 0) {
@@ -314,47 +352,48 @@ public class tetrisGame {
 		else{
 			return new zBlock(new Block(5.5,17.5),1);
 		}
-		
-	
-		
-	}
+}
 	
 	public static Tetromino createNextBlock() {
-		// Create an array 0 to 7 to correspond to the blocks
-		Integer[] random = new Integer[]{0,1,2,3,4,5,6,7};
-		// Shuffle the elements in the array
-		List<Integer> queue = Arrays.asList(random); 
-		Collections.shuffle(queue);
-		for(int i = 0; i < queue.size(); i++) { //change to while loop?
-			if (queue.get(i) == 0) {
-			 return new cubeBlock(new Block(10,13),1); 
+	int randIndex = (int)(Math.random() * 7);//gets a random number corresponding to block 
+
+			if (randIndex == 0) {
+			 return new cubeBlock(new Block(5.5,13),1);  
 			}
-			else if (queue.get(i) == 1) {
-				 return new lineBlock(new Block(10,13),1); 
+			else if (randIndex == 1) {
+				 return new lineBlock(new Block(5.5,13),1); 
 				}
-			else if (queue.get(i) == 2) {
-				 return new jBlock(new Block(10,13),1); 
+			else if (randIndex == 2) {
+				 return new jBlock(new Block(5.5,13),1); 
 				}
-			else if (queue.get(i) == 3) {
-				 return new lBlock(new Block(10,13),1); 
+			else if (randIndex == 3) {
+				 return new lBlock(new Block(5.5,13),1); 
 				}
-			else if (queue.get(i) == 4) {
-				 return new sBlock(new Block(10,13),1); 
+			else if (randIndex == 4) {
+				 return new sBlock(new Block(5.5,13),1); 
 				}
-			else if (queue.get(i) == 5) {
-				 return new tBlock(new Block(10,13),1); 
+			else if (randIndex == 5) {
+				 return new tBlock(new Block(5.5,13),1); 
 				}
 			else {
-				return new zBlock(new Block(10, 13),1);
+				return new zBlock(new Block(5.5, 13),1);
 			}
 
 		}
-		return nextBlock;
+
+	
+	public static void moveToNextPieceQueue() {
+	//	currentBlock.moveUp();
+		changeBlocksToColor(StdDraw.WHITE, nextBlock);
+		nextBlock.moveRight();
+		nextBlock.moveDown();
+		nextBlock = createNextBlock();
+		drawUIBlock2(nextBlock);
+	//	board.addToScore(40);
+		if (checkForGameLoss()) {
+			endGame();
+		}
 	}
-	
-	
-	
-	
 	
 	private static void drawTetromino(Tetromino t) {
 		for (Block b: t.getBlocks()) {
@@ -362,9 +401,6 @@ public class tetrisGame {
 		}
 	}
 	
-	
-
-
 	/**
 	 * Draws all Tetromino Pieces in the game
 	 */
@@ -386,101 +422,104 @@ public class tetrisGame {
 	 */
 	public static void drawBlocks(Block b) {
 		StdDraw.setPenColor(b.getColor());
-		StdDraw.square(b.getX() + 5, b.getY(), .5);
+		StdDraw.filledSquare(b.getX() + 5, b.getY(), .5);
+		StdDraw.setPenRadius(.003);
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.square(b.getX()+5, b.getY(), .5);
+		StdDraw.setPenRadius();
+
 	}
 	
 	
-	private static void fastDrop() {
+	static void fastDrop() {
 		// TODO Auto-generated method stub
 		while(!collision()) {
 			currentBlock.moveDown();
 		}
 	}
-
 	/**
 	 * Initializes button presses on keyBoard 
 	 * Found Here: https://stackoverflow.com/questions/27967575/trouble-with-key-pressings-in-java
 	 */
-	
-	private static void setupKeyboard() {
+	protected static void setupKeyboard() {
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @SuppressWarnings("unlikely-arg-type")
+	        @SuppressWarnings("unlikely-arg-type")
 			@Override
-            public boolean dispatchKeyEvent(KeyEvent ke) {
-                synchronized (tetrisGame.class) {
-                    switch (ke.getID()) {
-                    case KeyEvent.KEY_PRESSED:
-                    	
-                        if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
-                        	if (canMoveLeft()) {
+	        public boolean dispatchKeyEvent(KeyEvent ke) {
+	            synchronized (tetrisGame.class) {
+	                switch (ke.getID()) {
+	                case KeyEvent.KEY_PRESSED:
+	                	
+	                    if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
+	                    	if (canMoveLeft()) {
 	                        	currentBlock.moveLeft();
 	                        	if (collision()) {
 	                        		currentBlock.moveRight();
 	                        	}
 	                        	advanceGame();
-                        	}
-                        }
-                        if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
-                        	if (canMoveRight()) {
+	                    	}
+	                    }
+	                    if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
+	                    	if (canMoveRight()) {
 	                        	currentBlock.moveRight();
 	                        	if (collision()) {
 	                        		currentBlock.moveLeft();
 	                        	}
 	                        	advanceGame();
-                        	}
-                         }
-                        
-         
-                  	  if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
-                      	currentBlock.rotate();
-                      	while(collision()) {
-                      		currentBlock.moveLeft();
-                      	}
-                      	advanceGame();
-                  	  }
-                   
-                  	if (ke.getKeyCode() == KeyEvent.VK_UP) {
-                    	fastDrop();
-                    	advanceGame();
-                     }
-                  	
-                  	if (ke.getKeyCode() == KeyEvent.VK_Z) {
-                  		if (holdBlock == null) {
-                  			allBlocks.remove(currentBlock);
+	                    	}
+	                     }
+	                    
+	     
+	              	  if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
+	                  	currentBlock.rotate();
+	                  	while(collision()) {
+	                  		currentBlock.moveLeft();
+	                  	}
+	                  	advanceGame();
+	              	  }
+	               
+	              	if (ke.getKeyCode() == KeyEvent.VK_UP) {
+	                	fastDrop();
+	                	advanceGame();
+	                 }
+	              	
+	              	if (ke.getKeyCode() == KeyEvent.VK_Z) {
+	              		if (holdBlock == null) {
+	              			allBlocks.remove(currentBlock);
 	                    	holdBlock = currentBlock;
 	                    	holdBlock.moveToHoldPosition(new Block(1.5,18));
 	                    	allBlocks.remove(holdBlock);
 	                    	currentBlock = createNewPlayerBlock();
-                  		}
-                  		else {
-                  			Tetromino temp = holdBlock;
-                  			holdBlock = currentBlock;
-                  			holdBlock.moveToHoldPosition(new Block(1.5,18));
-                  			allBlocks.remove(holdBlock);
-                  			currentBlock = temp;
-                  		}
-                     }
-                       
-            
-                    }
-                   
-                    //
-                    switch (ke.getID()) {
-                    case KeyEvent.KEY_RELEASED:
-                    	
-                    	 
-                        if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
-                        	currentBlock.moveDown();
-                        	advanceGame();
-                         }
-                    
-                  
-                    }
-                    return false;
-                }
-            }
-
-
+	              		}
+	              		else {
+	              			Tetromino temp = holdBlock;
+	              			holdBlock = currentBlock;
+	              			holdBlock.moveToHoldPosition(new Block(1.5,18));
+	              			allBlocks.remove(holdBlock);
+	              			currentBlock = temp;
+	              		}
+	                 }
+	                   
+	        
+	                }
+	               
+	                //
+	                switch (ke.getID()) {
+	                case KeyEvent.KEY_RELEASED:
+	                	
+	                	 
+	                    if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
+	                    	currentBlock.moveDown();
+	                    	advanceGame();
+	                     }
+	                
+	              
+	                }
+	                return false;
+	            }
+	        }
+	
+	
 			private boolean canMoveLeft() {
 				boolean ret = true;
 				for (Block b : currentBlock.getBlocks()) {
@@ -500,9 +539,6 @@ public class tetrisGame {
 			}
 		});
 	}
+
 	
 }
-	
-        
-	
-
