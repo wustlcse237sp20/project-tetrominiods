@@ -13,6 +13,7 @@ Is there anything that you implemented but doesn't currently work?
 		The queue now updates with a new block, but not accurately (the block in the queue is not always the next block).
 		The hold box is now larger to account for the longer blocks, but there is still some overflow if some blocks are placed into the hold box while in a rotated position.
 		The pause button sometimes takes a couple clicks to work.
+		**sometimes the master branch will throw what we think is a java build path problem. if this happens, please run the project from the "development" branch !
 	
 What commands are needed to compile and run your code from the command line (or better yet, provide a script that people can use to run your program!)
 	Hopefully we figured this out as well! List of commands:
