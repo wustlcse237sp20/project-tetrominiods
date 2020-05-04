@@ -1,26 +1,23 @@
 What user stories were completed this iteration?
 	As of now, we have implemented the following stories:
-		Ability to "Hold" pieces
-		Replace "Hold" Pieces on button input
-		Remove cleared lines
-		Add Pause Screen
-		Add Start/Menu Screen
-		Added setColor() methods to objects
-		Added upcoming pieces to a Queue
-		Fixed 4way rotation issues
-		
-What user stories do you intend to complete next iteration?
 		Keeping Scores
-		Animated Background for title screen
-		Add game instructions to the board
+		Updated Title/Pause Screens/Buttons
 		Have filled blocks
-		Refactoring code, try to split large classes into different objects
-		Clean up any kinks in the game
-		Maybe add music?
-	
+		Added Game instructions/controls
+		Fixed the hold box a little more
+		The queue is more functional
+		We can now run from the master branch!
+		
 Is there anything that you implemented but doesn't currently work?
-	There's currently an issue where sometimes if a line is cleared it throws an error. We're not exactly sure what the problem is but we hope to have that fixed during Iteration 3. The buttons are a little off, where you have to click a good amount beneath them for them to work. There's also an issue with the queue where the next piece doesn't properly iterate through the nextPieces, to prevent it disrupting the UI it now remains static throughout the game. This will also be fixed in iteration 3. 
-	**HAD ISSUES WITH MERGING TO MASTER, PLEASE SWITCH TO DEVELOPMENT BRANCH AND RUN PROJECT FROM THERE!
+		We have a glitch where the game changes color for a second. We think it has to do with Sedgewick Draw and Eclipse not getting along at some point, but we tried to time the glitches so they happen around every 1000 points. We'll use this as a notification that you've reached the next 1000th point mark.
+		The queue now updates with a new block, but not accurately (the block in the queue is not always the next block).
+		The hold box is now larger to account for the longer blocks, but there is still some overflow if some blocks are placed into the hold box while in a rotated position.
+		The pause button sometimes takes a couple clicks to work.
 	
 What commands are needed to compile and run your code from the command line (or better yet, provide a script that people can use to run your program!)
-	Unfortunately, as of writing this, we could not get it to compile through command line, but works perfectly fine if imported through IntelliJ or Eclipse.
+	Hopefully we figured this out as well! List of commands:
+	git checkout master
+	cd src
+	java finalProject.tetrisGame
+	javac finalProject/tetrisGame.java
+	java finalProject.tetrisGame
